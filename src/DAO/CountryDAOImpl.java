@@ -12,9 +12,64 @@ import java.time.LocalDateTime;
 
 public class CountryDAOImpl implements CountryDAO {
 
+    /**
+     * @param countryName the country name to search for
+     * @return the Country object
+     */
     @Override
     public Country getCountry(String countryName) {
-        return null;
+        ResultSet result;
+        Country foundCountry = null;
+
+        // create and run query
+        String query = "SELECT * FROM countries WHERE Country = " + countryName;
+        result = DBQuery.executePreparedStatement(query);
+
+        // create country if result is found
+        try {
+            result.first();
+            int countryID = result.getInt("Country_ID");
+            String country = result.getString("Country");
+            LocalDateTime createDate = result.getTimestamp("Create_Date").toLocalDateTime();
+            String createdBy = result.getString("Created_By");
+            LocalDateTime lastUpdate = result.getTimestamp("Last_Update").toLocalDateTime();
+            String lastUpdatedBy = result.getString("Last_Updated_By");
+            foundCountry = new Country(countryID, country, createDate, createdBy, lastUpdate, lastUpdatedBy);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return foundCountry;
+    }
+
+    /**
+     * @param countryID the country ID to search for
+     * @return the Country object
+     */
+    @Override
+    public Country getCountry(int countryID) {
+        ResultSet result;
+        Country foundCountry = null;
+
+        // create and run query
+        String query = "SELECT * FROM countries WHERE Country_ID = " + countryID;
+        result = DBQuery.executePreparedStatement(query);
+
+        // create country if result is found
+        try {
+            result.first();
+            int foundCountryID = result.getInt("Country_ID");
+            String country = result.getString("Country");
+            LocalDateTime createDate = result.getTimestamp("Create_Date").toLocalDateTime();
+            String createdBy = result.getString("Created_By");
+            LocalDateTime lastUpdate = result.getTimestamp("Last_Update").toLocalDateTime();
+            String lastUpdatedBy = result.getString("Last_Updated_By");
+            foundCountry = new Country(foundCountryID, country, createDate, createdBy, lastUpdate, lastUpdatedBy);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return foundCountry;
     }
 
     /**
@@ -48,7 +103,7 @@ public class CountryDAOImpl implements CountryDAO {
     }
 
     /**
-     * Adds a new country to the database. Assumes table has already been checked for duplicate values.
+     * Adds a new country to the database. Assumes table has already been checked for duplicate values. Assumes times and user values already filled in.
      *
      * @param newCountry the country to be added
      */
@@ -67,7 +122,7 @@ public class CountryDAOImpl implements CountryDAO {
     }
 
     /**
-     * Updates an existing country in the database.
+     * Updates an existing country in the database. The param should already have the updated time and user for the update columns.
      *
      * @param toUpdate the country to be updated
      */
