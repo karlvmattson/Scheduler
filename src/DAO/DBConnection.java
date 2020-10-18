@@ -1,4 +1,4 @@
-package utils;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,15 +21,15 @@ public class DBConnection {
     private static final String jdbcURL = protocol + vendor + address;
 
     // Driver and Connection reference
-    private static final String MYSQLJDBCDRIVER = "com.mysql.jdbc.Driver";
-    private static Connection conn = null;
+    private static final String MYSQLJDBCDRIVER = "com.mysql.cj.jdbc.Driver";
+    static Connection conn = null;
 
     // Login
     private static final String username = "U07E6m";
     private static final String password = "53689000355";
 
 
-    public static Connection startConnection() {
+    public static void startConnection() {
         try {
             Class.forName(MYSQLJDBCDRIVER);
             conn = DriverManager.getConnection(jdbcURL, username, password);
@@ -37,9 +37,6 @@ public class DBConnection {
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
-
-        return conn;
-
     }
 
     public static void closeConnection() {
