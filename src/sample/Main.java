@@ -29,13 +29,13 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
         // Startup DB connection
         DBConnection.startConnection();
 
-//        CountryDAOImpl countryDAO = new CountryDAOImpl();
-//        countryDAO.getAllCountries();
+        CountryDAOImpl countryDAO = new CountryDAOImpl();
+        countryDAO.getAllCountries();
 
 //        String sqlStatement = "";
 //        DBQuery.setPreparedStatement(conn, sqlStatement); // Create Statement

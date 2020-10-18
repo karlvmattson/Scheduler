@@ -1,6 +1,7 @@
 package DAO;
 
 import DAOInterface.CountryDAO;
+import utils.TimeFunctions;
 import javafx.collections.ObservableList;
 import model.Country;
 
@@ -19,26 +20,14 @@ public class CountryDAOImpl implements CountryDAO {
     @Override
     public Country getCountry(String countryName) {
         ResultSet result;
-        Country foundCountry = null;
+        Country foundCountry;
 
         // create and run query
         String query = "SELECT * FROM countries WHERE Country = " + countryName;
         result = DBQuery.executePreparedStatement(query);
 
-        // create country if result is found
-        try {
-            result.first();
-            int countryID = result.getInt("Country_ID");
-            String country = result.getString("Country");
-            LocalDateTime createDate = result.getTimestamp("Create_Date").toLocalDateTime();
-            String createdBy = result.getString("Created_By");
-            LocalDateTime lastUpdate = result.getTimestamp("Last_Update").toLocalDateTime();
-            String lastUpdatedBy = result.getString("Last_Updated_By");
-            foundCountry = new Country(countryID, country, createDate, createdBy, lastUpdate, lastUpdatedBy);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
+        // create and return country if result is found
+        foundCountry = makeCountryFromResult(result);
         return foundCountry;
     }
 
@@ -49,26 +38,14 @@ public class CountryDAOImpl implements CountryDAO {
     @Override
     public Country getCountry(int countryID) {
         ResultSet result;
-        Country foundCountry = null;
+        Country foundCountry;
 
         // create and run query
         String query = "SELECT * FROM countries WHERE Country_ID = " + countryID;
         result = DBQuery.executePreparedStatement(query);
 
         // create country if result is found
-        try {
-            result.first();
-            int foundCountryID = result.getInt("Country_ID");
-            String country = result.getString("Country");
-            LocalDateTime createDate = result.getTimestamp("Create_Date").toLocalDateTime();
-            String createdBy = result.getString("Created_By");
-            LocalDateTime lastUpdate = result.getTimestamp("Last_Update").toLocalDateTime();
-            String lastUpdatedBy = result.getString("Last_Updated_By");
-            foundCountry = new Country(foundCountryID, country, createDate, createdBy, lastUpdate, lastUpdatedBy);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
+        foundCountry = makeCountryFromResult(result);
         return foundCountry;
     }
 
@@ -89,13 +66,7 @@ public class CountryDAOImpl implements CountryDAO {
 
         // loop through results and add them to the list
         while (result.next()) {
-            int countryID = result.getInt("Country_ID");
-            String country = result.getString("Country");
-            LocalDateTime createDate = result.getTimestamp("Create_Date").toLocalDateTime();
-            String createdBy = result.getString("Created_By");
-            LocalDateTime lastUpdate = result.getTimestamp("Last_Update").toLocalDateTime();
-            String lastUpdatedBy = result.getString("Last_Updated_By");
-            Country nextCountry = new Country(countryID, country, createDate, createdBy, lastUpdate, lastUpdatedBy);
+            Country nextCountry = makeCountryFromResult(result);
             allCountries.add(nextCountry);
         }
 
@@ -114,10 +85,8 @@ public class CountryDAOImpl implements CountryDAO {
                 "VALUES (?,?,?,?,?)";
         DBQuery.setPreparedStatement(query);
 
-        // fill in values in prepared statement
+        // fill in values in prepared statement and execute
         fillInPS(newCountry);
-
-        // run query
         DBQuery.executePreparedStatement();
     }
 
@@ -134,10 +103,8 @@ public class CountryDAOImpl implements CountryDAO {
                 "WHERE Country_ID = " + toUpdate.getCountryID();
         DBQuery.setPreparedStatement(query);
 
-        // fill in values in prepared statement
+        // fill in values in prepared statement and execute
         fillInPS(toUpdate);
-
-        // run query
         DBQuery.executePreparedStatement();
     }
 
@@ -161,9 +128,33 @@ public class CountryDAOImpl implements CountryDAO {
     private void fillInPS(Country country) throws SQLException {
         PreparedStatement statement = DBQuery.getPreparedStatement();
         statement.setString(1, country.getCountry());
-        statement.setTimestamp(2, Timestamp.valueOf(country.getCreateDate()));
+        statement.setTimestamp(2, TimeFunctions.toDBTimestamp(country.getCreateDate()));
         statement.setString(3, country.getCreatedBy());
-        statement.setTimestamp(4, Timestamp.valueOf(country.getLastUpdate()));
+        statement.setTimestamp(4, TimeFunctions.toDBTimestamp(country.getLastUpdate()));
         statement.setString(5, country.getLastUpdatedBy());
+    }
+
+    /**
+     * Helper function to extract a single country from a ResultSet
+     *
+     * @param result A ResultSet with pointer set to the desired country's data
+     * @return A Country constructed from the given ResultSet
+     */
+    private Country makeCountryFromResult(ResultSet result) {
+        Country newCountry = null;
+
+        // create country if result is found
+        try {
+            int countryID = result.getInt("Country_ID");
+            String country = result.getString("Country");
+            LocalDateTime createDate = TimeFunctions.fromDBTimestamp(result.getTimestamp("Create_Date"));
+            String createdBy = result.getString("Created_By");
+            LocalDateTime lastUpdate = TimeFunctions.fromDBTimestamp(result.getTimestamp("Last_Update"));
+            String lastUpdatedBy = result.getString("Last_Updated_By");
+            newCountry = new Country(countryID, country, createDate, createdBy, lastUpdate, lastUpdatedBy);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return newCountry;
     }
 }
