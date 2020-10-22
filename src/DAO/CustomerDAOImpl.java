@@ -105,8 +105,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void deleteCustomer(Customer deleteTarget) {
+        // first delete all of the customer's appointments
+        String query = "DELETE * FROM appointments WHERE Customer_ID = " + deleteTarget.getCustomerID();
+        DBQuery.executePreparedStatement(query);
+
         // create and run query
-        String query = "DELETE * FROM customers WHERE Customer_ID = " + deleteTarget.getCustomerID();
+        query = "DELETE * FROM customers WHERE Customer_ID = " + deleteTarget.getCustomerID();
         DBQuery.executePreparedStatement(query);
     }
 
