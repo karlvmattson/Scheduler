@@ -7,8 +7,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import model.User;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MainWindow {
 
@@ -26,6 +30,8 @@ public class MainWindow {
 
     @FXML
     private Button buttonReports;
+
+    private User currentUser;
 
     /**
      * Turns the side menu buttons off.
@@ -52,7 +58,9 @@ public class MainWindow {
      * @throws IOException IOException
      */
     public void showLogin() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoginMenu.fxml"));
+        ResourceBundle rb = ResourceBundle.getBundle("scheduler/loginMenu", Locale.getDefault());
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoginMenu.fxml"), rb);
         Parent root = fxmlLoader.load();
 
         // Set up a controller and load in the login screen
@@ -71,5 +79,23 @@ public class MainWindow {
     }
 
     public void handleButtonReports(ActionEvent actionEvent) {
+    }
+
+    public void closeProgram() {
+        // get a handle to the stage
+        Stage stage = (Stage) buttonCustomers.getScene().getWindow();
+        // close stage
+        stage.close();
+    }
+
+    /**
+     * Logs in a user and closes the login screen.
+     * @param user user who just logged in
+     */
+    public void logInUser(User user) {
+        currentUser = user;
+        enableSideButtons();
+        childPane.getChildren().clear();
+
     }
 }

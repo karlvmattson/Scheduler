@@ -6,7 +6,7 @@ import model.User;
 import java.sql.SQLException;
 
 public interface UserDAO {
-    User getUser(String userName);
+    User getUser(String userName) throws SQLException;
 
     User getUser(int userID);
 

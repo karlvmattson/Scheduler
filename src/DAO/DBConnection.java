@@ -29,6 +29,9 @@ public class DBConnection {
     private static final String password = "53689000355";
 
 
+    /**
+     * Open the database connection using the values specified in DBConnection.java.
+     */
     public static void startConnection() {
         try {
             Class.forName(MYSQLJDBCDRIVER);
@@ -39,6 +42,9 @@ public class DBConnection {
         }
     }
 
+    /**
+     * Close the connection to the database.
+     */
     public static void closeConnection() {
         try {
             conn.close();
@@ -46,5 +52,13 @@ public class DBConnection {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    /**
+     * Returns the database connection.
+     * @return current DB connection
+     */
+    public static Connection getConnection() {
+        return conn;
     }
 }

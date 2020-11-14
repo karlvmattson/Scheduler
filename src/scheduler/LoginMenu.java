@@ -1,5 +1,6 @@
 package scheduler;
 
+import DAO.UserDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,9 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import model.User;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class LoginMenu implements Initializable {
     @FXML
@@ -31,21 +35,84 @@ public class LoginMenu implements Initializable {
     @FXML
     private Label labelComputerRegion;
     private MainWindow mainWindow;
+    private ResourceBundle resourceBundle;
 
+    /**
+     * Stores a reference to the calling window's controller.
+     * @param menuController Controller for main window, needed for communication.
+     */
     public void setMenuController(MainWindow menuController ) {
         mainWindow = menuController;
     }
 
+    /**
+     * Check to see if login is successful and handle the result.
+     * @param actionEvent button is clicked
+     */
     public void handleButtonLogin(ActionEvent actionEvent) {
-        mainWindow.enableSideButtons();
+
+        // check for blank fields and display appropriate error messages
+        if(textUserName.getText().length()==0 || passwordField.getText().length()==0) {
+            labelErrorMessage.setText(resourceBundle.getString("label.labelErrorMessageBlankEntry"));
+            labelErrorMessage.setVisible(true);
+            return;
+        }
+// TODO Create logging function
+        UserDAOImpl userDAO = new UserDAOImpl();
+        User user;
+
+        // get user if one matches the typed username
+        try {
+            user = userDAO.getUser(textUserName.getText());
+        }
+        catch(Exception exception) {
+            labelErrorMessage.setText(resourceBundle.getString("label.labelErrorMessage"));
+            labelErrorMessage.setVisible(true);
+            return;
+        }
+
+        // check password
+        if(!user.getPassword().equals(passwordField.getText())) {
+            labelErrorMessage.setText(resourceBundle.getString("label.labelErrorMessage"));
+            labelErrorMessage.setVisible(true);
+            return;
+        }
+
+        // send logged in user back up to the main window
+        System.out.println("Successfully logged in as " + user.getUserName() + " // " + user.getPassword());
+        mainWindow.logInUser(user);
+
     }
 
+    /**
+     * Exit the program.
+     * @param actionEvent button is clicked
+     */
     public void handleButtonQuit(ActionEvent actionEvent) {
-        mainWindow.disableSideButtons();
+        mainWindow.closeProgram();
     }
 
+    /**
+     * Final setup of login page. Get and display user's timezone.
+     * @param url url
+     * @param resourceBundle ResourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
+        // Get user's timezone and display on login menu
+        TimeZone tz = TimeZone.getDefault();
+        labelComputerRegion.setText(tz.getDisplayName());
 
     }
+
+    /**
+     * Helper function to log attempts at logging into the system. Outputs to a text file.
+     * @param message the message to log
+     */
+    private void logAttempt(String message) {
+
+    }
+
+
 }

@@ -1,10 +1,12 @@
 package DAO;
 
 import DAOInterface.UserDAO;
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import javafx.collections.ObservableList;
 import model.User;
 import utils.TimeFunctions;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,16 +18,22 @@ public class UserDAOImpl implements UserDAO {
      * @return the User object
      */
     @Override
-    public User getUser(String userName) {
+    public User getUser(String userName) throws SQLException {
+        Connection conn = DBConnection.getConnection();
         ResultSet result;
         User foundUser;
-
+        System.out.println(userName);
         // create and run query
-        String query = "SELECT * FROM users WHERE User_Name = " + userName;
-        result = DBQuery.executePreparedStatement(query);
+        PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE User_Name =?",
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        preparedStatement.setString(1,userName);
+        result = preparedStatement.executeQuery();
 
         // create and return user if result is found
+        result.first();
         foundUser = makeUserFromResult(result);
+        System.out.println("found user " + foundUser.getUserName());
         return foundUser;
     }
 
