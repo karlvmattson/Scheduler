@@ -1,4 +1,4 @@
-package sample;
+package scheduler;
 
 import DAO.DBConnection;
 import DAO.UserDAOImpl;
@@ -14,10 +14,22 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+        Parent root = fxmlLoader.load();
+
+        // Set up a controller and load in the login screen
+        MainWindow mainWindowController = fxmlLoader.getController();
+        mainWindowController.disableSideButtons();
+        mainWindowController.showLogin();
+
+        // Display the window
+        primaryStage.setTitle("WGU C195 - Scheduling Application - Karl Mattson");
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+
+
+
     }
 
 

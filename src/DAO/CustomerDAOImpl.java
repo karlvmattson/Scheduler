@@ -1,5 +1,6 @@
 package DAO;
 
+import DAOInterface.AppointmentDAO;
 import DAOInterface.CustomerDAO;
 import javafx.collections.ObservableList;
 import model.Customer;
@@ -106,11 +107,13 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public void deleteCustomer(Customer deleteTarget) {
         // first delete all of the customer's appointments
-        String query = "DELETE * FROM appointments WHERE Customer_ID = " + deleteTarget.getCustomerID();
-        DBQuery.executePreparedStatement(query);
+        AppointmentDAOImpl appointment = new AppointmentDAOImpl();
+        appointment.deleteAppointmentByCustomer(deleteTarget);
+//        String query = "DELETE * FROM appointments WHERE Customer_ID = " + deleteTarget.getCustomerID();
+//        DBQuery.executePreparedStatement(query);
 
         // create and run query
-        query = "DELETE * FROM customers WHERE Customer_ID = " + deleteTarget.getCustomerID();
+        String query = "DELETE * FROM customers WHERE Customer_ID = " + deleteTarget.getCustomerID();
         DBQuery.executePreparedStatement(query);
     }
 

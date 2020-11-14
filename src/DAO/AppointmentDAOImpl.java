@@ -3,6 +3,7 @@ package DAO;
 import DAOInterface.AppointmentDAO;
 import javafx.collections.ObservableList;
 import model.Appointment;
+import model.Customer;
 import utils.TimeFunctions;
 
 import java.sql.PreparedStatement;
@@ -104,10 +105,23 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         DBQuery.executePreparedStatement();
     }
 
+    /**
+     * @param deleteTarget the Appointment to delete
+     */
     @Override
     public void deleteAppointment(Appointment deleteTarget) {
         // create and run query
         String query = "DELETE * FROM appointments WHERE Appointment_ID = " + deleteTarget.getAppointmentID();
+        DBQuery.executePreparedStatement(query);
+    }
+
+    /**
+     * @param customer the Customer whose appointments we want to delete
+     */
+    @Override
+    public void deleteAppointmentByCustomer(Customer customer) {
+        // create and run query
+        String query = "DELETE * FROM appointments WHERE Customer_ID = " + customer.getCustomerID();
         DBQuery.executePreparedStatement(query);
     }
 

@@ -2,6 +2,7 @@ package DAOInterface;
 
 import javafx.collections.ObservableList;
 import model.Appointment;
+import model.Customer;
 
 import java.sql.SQLException;
 
@@ -17,4 +18,6 @@ public interface AppointmentDAO {
     void updateAppointment(Appointment toUpdate) throws SQLException;
 
     void deleteAppointment(Appointment deleteTarget);
+
+    void deleteAppointmentByCustomer(Customer customer);
 }
