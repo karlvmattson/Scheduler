@@ -9,9 +9,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import model.User;
+import utils.LogFunctions;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -57,30 +60,43 @@ public class LoginMenu implements Initializable {
             labelErrorMessage.setVisible(true);
             return;
         }
-// TODO Create logging function
+
         UserDAOImpl userDAO = new UserDAOImpl();
         User user;
+        LocalDateTime currentTime = java.time.LocalDateTime.now();
+        String logMessage = currentTime.toString() + " - ";
+        String logFile = "login.txt";
 
         // get user if one matches the typed username
         try {
             user = userDAO.getUser(textUserName.getText());
+
+            // check password
+            if(user.getPassword().equals(passwordField.getText())) {
+                // log a successful login attempt
+                logMessage = logMessage + "Successfully logged in as user: " + user.getUserName();
+                LogFunctions.logEntry(logFile, logMessage);
+
+                // send logged in user back up to the main window
+                mainWindow.logInUser(user);
+                return;
+
+            }
+        }
+        catch(SQLException sqlException) {
+            // This exception indicates that the username was not found
         }
         catch(Exception exception) {
-            labelErrorMessage.setText(resourceBundle.getString("label.labelErrorMessage"));
-            labelErrorMessage.setVisible(true);
-            return;
+            System.out.println(exception.getMessage());
         }
 
-        // check password
-        if(!user.getPassword().equals(passwordField.getText())) {
-            labelErrorMessage.setText(resourceBundle.getString("label.labelErrorMessage"));
-            labelErrorMessage.setVisible(true);
-            return;
-        }
+        // log a failed login attempt
+        logMessage = logMessage + "FAILED login attempt as user: " + textUserName.getText();
+        LogFunctions.logEntry(logFile,logMessage);
 
-        // send logged in user back up to the main window
-        System.out.println("Successfully logged in as " + user.getUserName() + " // " + user.getPassword());
-        mainWindow.logInUser(user);
+        // display error message
+        labelErrorMessage.setText(resourceBundle.getString("label.labelErrorMessage"));
+        labelErrorMessage.setVisible(true);
 
     }
 

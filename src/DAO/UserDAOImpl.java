@@ -22,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
         Connection conn = DBConnection.getConnection();
         ResultSet result;
         User foundUser;
-        System.out.println(userName);
+
         // create and run query
         PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE User_Name =?",
                 ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -33,7 +33,6 @@ public class UserDAOImpl implements UserDAO {
         // create and return user if result is found
         result.first();
         foundUser = makeUserFromResult(result);
-        System.out.println("found user " + foundUser.getUserName());
         return foundUser;
     }
 
