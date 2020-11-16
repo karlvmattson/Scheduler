@@ -131,6 +131,7 @@ public class MainWindow {
         enableSideButtons();
         childPane.getChildren().clear();
         showMenu("CustomerMenu.fxml");
+        highButton(buttonCustomers);
     }
 
     /**
@@ -145,6 +146,8 @@ public class MainWindow {
             // pass the current user to the child pane
             ChildPaneController childPaneController = fxmlLoader.getController();
             childPaneController.setUser(currentUser);
+
+            childPane.getChildren().setAll(root.getChildrenUnmodifiable());
         }
         catch(IOException ioException) {
             System.out.println(ioException.getMessage());
@@ -156,6 +159,8 @@ public class MainWindow {
      * @param button button to highlight
      */
     private void highButton(Button button) {
+
+        // reset color on all buttons
         ObservableList<Node> children = vboxMenuButtons.getChildren();
         for (Node child : children) {
             if (child instanceof Button) {
@@ -163,6 +168,7 @@ public class MainWindow {
             }
         }
 
+        // highlight the active menu's button
         button.setStyle("-fx-background-color: #D2DBC6");
     }
 }
