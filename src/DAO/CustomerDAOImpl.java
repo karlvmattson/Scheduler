@@ -1,6 +1,5 @@
 package DAO;
 
-import DAOInterface.AppointmentDAO;
 import DAOInterface.CustomerDAO;
 import javafx.collections.ObservableList;
 import model.Customer;

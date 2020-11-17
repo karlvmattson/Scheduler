@@ -17,114 +17,102 @@
       <top>
          <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="630.0" spacing="10.0" BorderPane.alignment="CENTER">
             <opaqueInsets>
-               <Insets/>
+               <Insets />
             </opaqueInsets>
             <BorderPane.margin>
-               <Insets left="20.0"/>
+               <Insets left="20.0" />
             </BorderPane.margin>
-            <Label maxWidth="113.0" minWidth="113.0" prefHeight="17.0" prefWidth="113.0" styleClass="Label"
-                   stylesheets="@scheduler.css" text="First-Level Division: "/>
-            <ComboBox fx:id="comboFilterDivision" prefHeight="25.0" prefWidth="248.0"/>
+            <Label maxWidth="113.0" minWidth="113.0" prefHeight="17.0" prefWidth="113.0" styleClass="Label" stylesheets="@scheduler.css" text="First-Level Division: " />
+            <ComboBox fx:id="comboFilterDivision" prefHeight="25.0" prefWidth="248.0" />
             <HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="296.0" spacing="10.0">
                <HBox.margin>
-                  <Insets right="20.0"/>
+                  <Insets right="20.0" />
                </HBox.margin>
-               <Label styleClass="Label" stylesheets="@scheduler.css" text="Country: "/>
-               <ComboBox fx:id="comboFilterCountry" prefWidth="150.0"/>
+               <Label styleClass="Label" stylesheets="@scheduler.css" text="Country: " />
+               <ComboBox fx:id="comboFilterCountry" prefWidth="150.0" />
             </HBox>
          </HBox>
       </top>
       <bottom>
          <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="650.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-               <Insets right="20.0"/>
+               <Insets right="20.0" />
             </BorderPane.margin>
             <HBox prefHeight="46.0" prefWidth="268.0" spacing="20.0">
-               <Button fx:id="buttonSave" mnemonicParsing="false" onAction="#handleButtonSave" prefWidth="100.0"
-                       styleClass="Button" text="Save"/>
-               <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#handleButtonCancel" prefWidth="100.0"
-                       styleClass="Button" text="Cancel"/>
+               <Button fx:id="buttonSave" mnemonicParsing="false" onAction="#handleButtonSave" prefWidth="100.0" styleClass="Button" text="Save" />
+               <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#handleButtonCancel" prefWidth="100.0" styleClass="Button" text="Cancel" />
             </HBox>
-            <Label styleClass="Label" stylesheets="@scheduler.css" text="Logged in as: "/>
-            <Label fx:id="labelUserName" prefHeight="17.0" styleClass="Label" stylesheets="@scheduler.css"
-                   text="userName"/>
+            <Label styleClass="Label" stylesheets="@scheduler.css" text="Logged in as: " />
+            <Label fx:id="labelUserName" prefHeight="17.0" styleClass="Label" stylesheets="@scheduler.css" text="userName" />
          </HBox>
       </bottom>
       <center>
          <VBox alignment="TOP_CENTER" prefHeight="451.0" prefWidth="185.0" spacing="10.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-               <Insets/>
+               <Insets />
             </BorderPane.margin>
-            <Label styleClass="Header" stylesheets="@scheduler.css" text="Customers"/>
-            <TableView fx:id="tableCustomers" prefHeight="233.0" prefWidth="590.0" styleClass="TableView"
-                       stylesheets="@scheduler.css">
+            <AnchorPane prefHeight="38.0" prefWidth="650.0">
+               <Label layoutX="247.0" layoutY="1.0" styleClass="Header" stylesheets="@scheduler.css" text="Customers"/>
+               <Button fx:id="buttonCreateAppointment" layoutX="433.0" layoutY="1.0" mnemonicParsing="false"
+                       onAction="#handleButtonCreateAppointment" prefHeight="38.0" prefWidth="195.0" styleClass="Button"
+                       text="Create Appointment" wrapText="true"/>
+            </AnchorPane>
+            <TableView fx:id="tableCustomers" prefHeight="233.0" prefWidth="590.0" styleClass="TableView" stylesheets="@scheduler.css">
                <columns>
-                  <TableColumn prefWidth="75.0" text="C1"/>
-                  <TableColumn prefWidth="75.0" text="C2"/>
+                  <TableColumn prefWidth="75.0" text="C1" />
+                  <TableColumn prefWidth="75.0" text="C2" />
                </columns>
                <VBox.margin>
-                  <Insets left="20.0" right="20.0"/>
+                  <Insets left="20.0" right="20.0" />
                </VBox.margin>
             </TableView>
             <HBox prefHeight="156.0" prefWidth="587.0" spacing="5.0">
                <VBox.margin>
-                  <Insets left="20.0" right="20.0"/>
+                  <Insets left="20.0" right="20.0" />
                </VBox.margin>
                <VBox prefHeight="156.0" prefWidth="104.0" spacing="5.0">
-                  <Button fx:id="buttonAdd" mnemonicParsing="false" onAction="#handleButtonAdd" prefWidth="100.0"
-                          styleClass="Button" text="Add"/>
-                  <Button fx:id="buttonModify" mnemonicParsing="false" onAction="#handleButtonModify"
-                          prefWidth="100.0" styleClass="Button" text="Modify"/>
-                  <Button fx:id="buttonDelete" mnemonicParsing="false" onAction="#handleButtonDelete"
-                          prefWidth="100.0" styleClass="Button" text="Delete"/>
+                  <Button fx:id="buttonAdd" mnemonicParsing="false" onAction="#handleButtonAdd" prefWidth="100.0" styleClass="Button" text="Add" />
+                  <Button fx:id="buttonModify" mnemonicParsing="false" onAction="#handleButtonModify" prefWidth="100.0" styleClass="Button" text="Modify" />
+                  <Button fx:id="buttonDelete" mnemonicParsing="false" onAction="#handleButtonDelete" prefWidth="100.0" styleClass="Button" text="Delete" />
                </VBox>
                <VBox prefHeight="156.0" prefWidth="500.0">
                   <HBox prefHeight="100.0" prefWidth="500.0">
                      <VBox prefHeight="100.0" prefWidth="316.0">
                         <VBox prefHeight="91.0" prefWidth="266.0">
-                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0"
-                                 spacing="3.0">
-                              <Label styleClass="Label" text="Name:"/>
-                              <TextField fx:id="textName" prefHeight="25.0" prefWidth="267.0"
-                                         styleClass="TextBox"/>
+                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
+                              <Label styleClass="Label" text="Name:" />
+                              <TextField fx:id="textName" prefHeight="25.0" prefWidth="267.0" styleClass="TextBox" />
                            </HBox>
-                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0"
-                                 spacing="3.0">
-                              <Label styleClass="Label" text="Address:"/>
-                              <TextField fx:id="textAddress" prefHeight="25.0" prefWidth="255.0"
-                                         styleClass="TextBox"/>
+                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
+                              <Label styleClass="Label" text="Address:" />
+                              <TextField fx:id="textAddress" prefHeight="25.0" prefWidth="255.0" styleClass="TextBox" />
                            </HBox>
                         </VBox>
                      </VBox>
                      <VBox prefHeight="100.0" prefWidth="184.0">
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
-                           <Label styleClass="Label" text="Phone:"/>
-                           <TextField fx:id="textPhone" prefHeight="25.0" prefWidth="136.0"
-                                      styleClass="TextBox"/>
+                           <Label styleClass="Label" text="Phone:" />
+                           <TextField fx:id="textPhone" prefHeight="25.0" prefWidth="136.0" styleClass="TextBox" />
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
-                           <Label styleClass="Label" text="Postal Code:"/>
-                           <TextField fx:id="textPostalCode" prefHeight="25.0" prefWidth="106.0"
-                                      styleClass="TextBox"/>
+                           <Label styleClass="Label" text="Postal Code:" />
+                           <TextField fx:id="textPostalCode" prefHeight="25.0" prefWidth="106.0" styleClass="TextBox" />
                         </HBox>
                      </VBox>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="575.0" spacing="10.0">
                      <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="323.0" spacing="3.0">
-                        <Label styleClass="Label" text="First-Level Division:"/>
-                        <ComboBox fx:id="comboDivision" prefHeight="25.0" prefWidth="198.0"
-                                  styleClass="ComboBox"/>
+                        <Label styleClass="Label" text="First-Level Division:" />
+                        <ComboBox fx:id="comboDivision" prefHeight="25.0" prefWidth="198.0" styleClass="ComboBox" />
                      </HBox>
                      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
-                        <Label styleClass="Label" text="Country:"/>
-                        <ComboBox fx:id="comboCountry" prefHeight="25.0" prefWidth="128.0"
-                                  styleClass="ComboBox"/>
+                        <Label styleClass="Label" text="Country:" />
+                        <ComboBox fx:id="comboCountry" prefHeight="25.0" prefWidth="128.0" styleClass="ComboBox" />
                      </HBox>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="154.0">
-                     <Label styleClass="Label" text="Database ID:"/>
-                     <TextField fx:id="textID" disable="true" prefHeight="25.0" prefWidth="60.0"
-                                styleClass="TextBox"/>
+                     <Label styleClass="Label" text="Database ID:" />
+                     <TextField fx:id="textID" disable="true" prefHeight="25.0" prefWidth="60.0" styleClass="TextBox" />
                   </HBox>
                </VBox>
             </HBox>

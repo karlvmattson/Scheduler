@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import model.User;
 
 public class CustomerMenu implements ChildPaneController{
+    public Button buttonCreateAppointment;
     @FXML
     private TableView<?> tableCustomers;
     @FXML
@@ -39,8 +40,6 @@ public class CustomerMenu implements ChildPaneController{
     @FXML
     private ComboBox<String> comboCountry;
 
-    private User currentUser;
-
     public CustomerMenu() {
     }
 
@@ -50,7 +49,6 @@ public class CustomerMenu implements ChildPaneController{
      */
     @Override
     public void setUser(User user) {
-        currentUser = user;
     }
 
     public void handleButtonAdd(ActionEvent actionEvent) {
@@ -66,5 +64,8 @@ public class CustomerMenu implements ChildPaneController{
     }
 
     public void handleButtonCancel(ActionEvent actionEvent) {
+    }
+
+    public void handleButtonCreateAppointment(ActionEvent actionEvent) {
     }
 }

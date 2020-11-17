@@ -49,6 +49,15 @@
     -fx-font-weight: bold;
 }
 
+.TopTabButton {
+    -fx-background-color: #789455;
+    -fx-alignment: center;
+    -fx-background-radius: 10 10 0 0;
+    -fx-font-family: Arial, Helvetica, sans-serif;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+}
+
 .Button:hover {
     -fx-background-color: #5A7C2F;
 }

@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import model.User;
 import utils.LogFunctions;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;

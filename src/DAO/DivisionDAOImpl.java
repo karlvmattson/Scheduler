@@ -3,7 +3,6 @@ package DAO;
 import DAOInterface.DivisionDAO;
 import javafx.collections.ObservableList;
 import model.Division;
-import model.Division;
 import utils.TimeFunctions;
 
 import java.sql.PreparedStatement;

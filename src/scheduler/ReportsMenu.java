@@ -1,9 +1,17 @@
 package scheduler;
 
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import model.User;
 
 public class ReportsMenu implements ChildPaneController{
-    private User currentUser;
+    public Label labelUserName;
+    public Button buttonAppointmentTotals;
+    public Button buttonContactSchedule;
+    public Button buttonDivisionReport;
+    public TextArea textReportWindow;
 
     /**
      * Takes and stores the current user of the application for logging purposes.
@@ -11,6 +19,14 @@ public class ReportsMenu implements ChildPaneController{
      */
     @Override
     public void setUser(User user) {
-        currentUser = user;
+    }
+
+    public void handleButtonAppointmentTotals(ActionEvent actionEvent) {
+    }
+
+    public void handleButtonContactSchedule(ActionEvent actionEvent) {
+    }
+
+    public void handleButtonDivisionReport(ActionEvent actionEvent) {
     }
 }

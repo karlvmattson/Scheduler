@@ -1,7 +1,6 @@
 package DAO;
 
 import DAOInterface.UserDAO;
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import javafx.collections.ObservableList;
 import model.User;
 import utils.TimeFunctions;

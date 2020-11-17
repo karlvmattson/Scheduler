@@ -36,6 +36,7 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
     @Override
     public void setUser(User user) {
         currentUser = user;
+        labelUserName.setText(currentUser.getUserName());
     }
 
 
@@ -56,6 +57,6 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        labelUserName.setText(currentUser.getUserName());
+
     }
 }

@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 /**
  * This class matches the COUNTRIES table in the DB.
