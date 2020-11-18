@@ -1,5 +1,6 @@
 package scheduler;
 
+import DAO.ContactDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,9 +9,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.Appointment;
+import model.Contact;
 import model.User;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +27,7 @@ public class AppointmentMenu implements ChildPaneController, Initializable {
     private Button buttonModify;
     private Button buttonDelete;
     @FXML
-    private ComboBox<String> comboContact;
+    private ComboBox<Contact> comboContact;
     @FXML
     private TextField textAppointmentID;
     @FXML
@@ -85,7 +88,13 @@ public class AppointmentMenu implements ChildPaneController, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            comboContact.setItems(new ContactDAOImpl().getAllContacts());
 
+        }
+        catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
     }
 
 
@@ -103,9 +112,10 @@ public class AppointmentMenu implements ChildPaneController, Initializable {
         formatter = DateTimeFormatter.ofPattern("hh:mm a");
         textEndTime.setText(newAppointment.getEndTime().format(formatter));
         textStartTime.setText(newAppointment.getStartTime().format(formatter));
-
-
-
-
+        for(Contact contact : comboContact.getItems()) {
+            if(contact.getContactID() == newAppointment.getContactID()) {
+                comboContact.setValue(contact);
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 package scheduler;
 
 import DAO.AppointmentDAOImpl;
-import DAO.ContactDAOImpl;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -57,10 +56,9 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
     @FXML
     private Label labelError;
 
-    private User currentUser;
-    private MainWindow mainWindow;
-    private ObservableList<AppointmentWithContact> appointmentList = FXCollections.observableArrayList();
-    private ContactDAOImpl contacts = new ContactDAOImpl();
+    private User currentUser;  // logged in user
+    private MainWindow mainWindow;  // controller for main window
+    private ObservableList<AppointmentWithContact> appointmentList = FXCollections.observableArrayList();  // list of all Appointments
 
 
     /**
@@ -83,8 +81,7 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
             for (Appointment appointment : new AppointmentDAOImpl().getAllAppointments()) {
                 appointmentList.add(new AppointmentWithContact(appointment));
             }
-        }
-        catch (SQLException sqlException) {
+        } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
 
@@ -96,35 +93,37 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
      * @param actionEvent actionEvent
      */
     public void handleButtonModify(ActionEvent actionEvent) {
-        if(tableAppointments.getSelectionModel().getSelectedIndex() > -1) {
+        if (tableAppointments.getSelectionModel().getSelectedIndex() > -1) {
             Appointment selected = tableAppointments.getSelectionModel().getSelectedItem();
             mainWindow.setCurrentAppointment(selected);
             mainWindow.setAppointmentEditMode(true);
             mainWindow.loadAppointmentMenu();
-        }
-        else {
+        } else {
             labelError.setText("Please select an appointment first.");
             labelError.setVisible(true);
         }
     }
 
+    /**
+     * Deletes the Appointment currently selected in the TableView.
+     *
+     * @param actionEvent actionEvent
+     */
     public void handleButtonDelete(ActionEvent actionEvent) {
-        if(tableAppointments.getSelectionModel().getSelectedIndex() > -1) {
+        if (tableAppointments.getSelectionModel().getSelectedIndex() > -1) {
             Appointment selected = tableAppointments.getSelectionModel().getSelectedItem();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Delete appointment?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete appointment?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 new AppointmentDAOImpl().deleteAppointment(selected);
                 refreshData();
-                if(radioFilterByWeek.isSelected()) {
+                if (radioFilterByWeek.isSelected()) {
                     handleRadioWeek(new ActionEvent());
-                }
-                else {
+                } else {
                     handleRadioMonth(new ActionEvent());
                 }
             }
-        }
-        else {
+        } else {
             labelError.setText("Please select an appointment first.");
             labelError.setVisible(true);
         }
@@ -143,7 +142,6 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
                 (a.getStartTime().toLocalDate().isAfter(LocalDate.now()) &
                         a.getStartTime().toLocalDate().isBefore(LocalDate.now().plusDays(7))));
         buildSchedule(filteredAppointments);
-
     }
 
     /**
@@ -161,10 +159,14 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
         buildSchedule(filteredAppointments);
     }
 
+    /**
+     * Wraps the filtered list into a SortedList and displays it in the TableView
+     *
+     * @param sourceList list filtered to items to be displayed
+     */
     private void buildSchedule(FilteredList<AppointmentWithContact> sourceList) {
         SortedList<AppointmentWithContact> sortedList = new SortedList<>(sourceList);
         tableAppointments.setItems(sortedList);
-
     }
 
     /**
@@ -180,15 +182,6 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
                 new SimpleStringProperty(cellData.getValue().getDescription()));
         LocationColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getLocation()));
-
-        // Originally done with nested getter calls but caused severe slowdown.
-        // Created AppointmentWithContact class to pull contact name in ahead of time. Much better performance.
-        ContactColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty((cellData.getValue().getContactName())));
-
-   // new SimpleStringProperty((contacts.getContact(cellData.getValue().getContactID())).getContactName()));
-
-
         TypeColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getType()));
         StartColumn.setCellValueFactory(cellData ->
@@ -197,6 +190,11 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
                 new SimpleStringProperty(TimeFunctions.formatDateTimeForDisplay(cellData.getValue().getEndTime())));
         CustomerIDColumn.setCellValueFactory(cellData ->
                 new SimpleIntegerProperty(cellData.getValue().getCustomerID()).asObject());
+
+        // Originally done with nested getter calls but caused severe slowdown.
+        // Created AppointmentWithContact class to pull contact name in ahead of time. Much better performance.
+        ContactColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty((cellData.getValue().getContactName())));
     }
 
     /**
@@ -224,6 +222,4 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
     public void setMenuController(MainWindow menuController) {
         mainWindow = menuController;
     }
-
-
 }

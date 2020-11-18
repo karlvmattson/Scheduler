@@ -1,20 +1,32 @@
 package scheduler;
 
+import DAO.AppointmentDAOImpl;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.AppointmentWithContact;
 import model.Customer;
 import model.User;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -22,61 +34,66 @@ public class MainWindow {
 
     @FXML
     private VBox vboxMenuButtons;
-
     @FXML
     private AnchorPane childPane;
-
     @FXML
     private Button buttonCustomers;
-
     @FXML
     private Button buttonViewSchedule;
-
-    @FXML
-    private Button buttonAppointments;
-
     @FXML
     private Button buttonReports;
+    @FXML
+    private Label labelUpcomingAppointment;
+    @FXML
+    private Label labelUpcomingAppointmentAlert;
 
-    private User currentUser;
-    private Customer currentCustomer;
-    private Appointment currentAppointment;
-    private Boolean appointmentEditMode;
-
+    private User currentUser;  // logged in user. Set from LoginMenu
+    private Customer currentCustomer;  // customer to be modified. Set from CustomerMenu
+    private Appointment currentAppointment;  // appointment to be modified. Set from ViewMenuSchedule
+    private Boolean appointmentEditMode;    // flag to indicate if we are creating a new record or editing an existing one
+                                            // when swapping to AppointmentMenu
 
     /**
-     * @return current customer
+     * Displays the upcoming appointment on the side bar.
+     * @param appointment the appointment to display beneath the alert
      */
-    public Customer getCurrentCustomer() {
-        return currentCustomer;
+    public void setUpcomingAppointment( Appointment appointment) {
+        labelUpcomingAppointmentAlert.setText("Appointment scheduled within the next 15 minutes!");
+        labelUpcomingAppointmentAlert.setStyle("-fx-font-color : RED");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd  hh:mm a");
+        String time = appointment.getStartTime().format(formatter);
+        String id = String.valueOf(appointment.getAppointmentID());
+        labelUpcomingAppointment.setText("Appointment ID: " + id + "\n" + time);
+        labelUpcomingAppointment.setVisible(true);
     }
 
     /**
-     * @param currentCustomer customer to set
+     * LAMBDA EXPRESSION For conciseness. Checks if there is an appointment scheduled in the next 15 minutes and calls setUpcomingAppointment to show if found.
      */
-    public void setCurrentCustomer(Customer currentCustomer) {
-        this.currentCustomer = currentCustomer;
-    }
+    public void checkUpcomingAppointment() {
+        labelUpcomingAppointmentAlert.setVisible(true);
+        try {
+            ObservableList<Appointment> appointmentList = new AppointmentDAOImpl().getAllAppointments();
 
-    /**
-     * @return current appointment
-     */
-    public Appointment getCurrentAppointment() {
-        return currentAppointment;
-    }
+            FilteredList<Appointment> filteredAppointments = appointmentList.filtered(
+                    a -> a.getStartTime().isEqual(LocalDateTime.now()) ||
+                    (a.getStartTime().isAfter(LocalDateTime.now()) &
+                            a.getStartTime().isBefore(LocalDateTime.now().plusMinutes(15))));
 
-    /**
-     * @param currentAppointment appointment to set
-     */
-    public void setCurrentAppointment(Appointment currentAppointment) {
-        this.currentAppointment = currentAppointment;
+            SortedList<Appointment> sortedList = new SortedList<>(filteredAppointments);
+            if(sortedList.size() > 0) {
+                setUpcomingAppointment(sortedList.get(0));
+            }
+        }
+        catch(SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
     }
 
     /**
      * Turns the side menu buttons off.
      */
     public void disableSideButtons() {
-        buttonAppointments.setDisable(true);
         buttonCustomers.setDisable(true);
         buttonReports.setDisable(true);
         buttonViewSchedule.setDisable(true);
@@ -86,7 +103,6 @@ public class MainWindow {
      * Turns the side menu buttons on.
      */
     public void enableSideButtons() {
-        buttonAppointments.setDisable(false);
         buttonCustomers.setDisable(false);
         buttonReports.setDisable(false);
         buttonViewSchedule.setDisable(false);
@@ -166,8 +182,12 @@ public class MainWindow {
         showMenu("CustomerMenu.fxml");
         highButton(buttonCustomers);
         appointmentEditMode = false;
+        checkUpcomingAppointment();
     }
 
+    /**
+     * Loads AppointmentMenu and sets it up for either record creation or update based on appointmentEditMode.
+     */
     public void loadAppointmentMenu() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AppointmentMenu.fxml"));
@@ -181,6 +201,7 @@ public class MainWindow {
                 childPaneController.loadAppointment(currentAppointment);
             }
             childPane.getChildren().setAll(root.getChildrenUnmodifiable());
+            disableSideButtons();
         }
         catch(IOException ioException) {
             System.out.println(ioException.getMessage());
@@ -194,6 +215,7 @@ public class MainWindow {
      * @param menuFile the fxml file to display in the child pane
      */
     public void showMenu(String menuFile) {
+        enableSideButtons();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(menuFile));
             Parent root = fxmlLoader.load();
@@ -202,7 +224,6 @@ public class MainWindow {
             ChildPaneController childPaneController = fxmlLoader.getController();
             childPaneController.setUser(currentUser);
             childPaneController.setMenuController(this);
-
 
             childPane.getChildren().setAll(root.getChildrenUnmodifiable());
         }
@@ -230,11 +251,47 @@ public class MainWindow {
         button.setStyle("-fx-background-color: #D2DBC6");
     }
 
+    /**
+     * Returns true if user intends to edit an Appointment record.
+     * @return appointmentEditMode
+     */
     public Boolean getAppointmentEditMode() {
         return appointmentEditMode;
     }
 
+    /**
+     * Sets appointmentEditMode.
+     * @param appointmentEditMode true if user intends to edit an Appointment record.
+     */
     public void setAppointmentEditMode(Boolean appointmentEditMode) {
         this.appointmentEditMode = appointmentEditMode;
+    }
+
+    /**
+     * @return current customer
+     */
+    public Customer getCurrentCustomer() {
+        return currentCustomer;
+    }
+
+    /**
+     * @param currentCustomer customer to set
+     */
+    public void setCurrentCustomer(Customer currentCustomer) {
+        this.currentCustomer = currentCustomer;
+    }
+
+    /**
+     * @return current appointment
+     */
+    public Appointment getCurrentAppointment() {
+        return currentAppointment;
+    }
+
+    /**
+     * @param currentAppointment appointment to set
+     */
+    public void setCurrentAppointment(Appointment currentAppointment) {
+        this.currentAppointment = currentAppointment;
     }
 }

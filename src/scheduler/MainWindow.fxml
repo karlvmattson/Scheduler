@@ -28,9 +28,10 @@
             <VBox fx:id="vboxMenuButtons" layoutY="68.0" prefHeight="327.0" prefWidth="200.0" spacing="5.0">
                <children>
                   <Button fx:id="buttonCustomers" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleButtonCustomers" prefHeight="50.0" prefWidth="200.0" styleClass="SideButton" stylesheets="@scheduler.css" text="Customers" />
-                  <Button fx:id="buttonAppointments" mnemonicParsing="false" onAction="#handleButtonAppointments" prefHeight="50.0" prefWidth="200.0" styleClass="SideButton" stylesheets="@scheduler.css" text="Appointments" />
                   <Button fx:id="buttonViewSchedule" mnemonicParsing="false" onAction="#handleButtonViewSchedule" prefHeight="50.0" prefWidth="200.0" styleClass="SideButton" stylesheets="@scheduler.css" text="View Schedule" />
                   <Button fx:id="buttonReports" mnemonicParsing="false" onAction="#handleButtonReports" prefHeight="50.0" prefWidth="200.0" styleClass="SideButton" stylesheets="@scheduler.css" text="Reports" />
+                  <Label fx:id="labelUpcomingAppointmentAlert" prefHeight="62.0" prefWidth="172.0" text="No appointments scheduled in the next 15 minutes." textFill="#ffc64b" visible="false" wrapText="true" />
+                  <Label fx:id="labelUpcomingAppointment" alignment="TOP_LEFT" prefHeight="85.0" prefWidth="198.0" text="Upcoming Appointment." textFill="WHITE" visible="false" wrapText="true" />
                </children>
             </VBox>
          </children>
