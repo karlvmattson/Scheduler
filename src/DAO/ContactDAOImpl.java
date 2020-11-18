@@ -3,7 +3,9 @@ package DAO;
 import DAOInterface.ContactDAO;
 import javafx.collections.ObservableList;
 import model.Contact;
+import model.User;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,15 +16,21 @@ public class ContactDAOImpl implements ContactDAO {
      * @return the Contact object
      */
     @Override
-    public Contact getContact(String contactName) {
+    public Contact getContact(String contactName) throws SQLException {
+
+        Connection conn = DBConnection.getConnection();
         ResultSet result;
         Contact foundContact;
 
         // create and run query
-        String query = "SELECT * FROM contacts WHERE Contact_Name = " + contactName;
-        result = DBQuery.executePreparedStatement(query);
+        PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM contacts WHERE Contact_Name = ?",
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        preparedStatement.setString(1,contactName);
+        result = preparedStatement.executeQuery();
 
         // create and return contact if result is found
+        result.first();
         foundContact = makeContactFromResult(result);
         return foundContact;
     }
@@ -33,16 +41,26 @@ public class ContactDAOImpl implements ContactDAO {
      */
     @Override
     public Contact getContact(int contactID) {
-        ResultSet result;
-        Contact foundContact;
+        try {
+            Connection conn = DBConnection.getConnection();
+            ResultSet result;
+            Contact foundContact;
 
-        // create and run query
-        String query = "SELECT * FROM contacts WHERE Contact_ID = " + contactID;
-        result = DBQuery.executePreparedStatement(query);
+            // create and run query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM contacts WHERE Contact_ID = ?",
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            preparedStatement.setInt(1, contactID);
+            result = preparedStatement.executeQuery();
 
-        // create contact if result is found
-        foundContact = makeContactFromResult(result);
-        return foundContact;
+            // create and return contact if result is found
+            result.first();
+            foundContact = makeContactFromResult(result);
+            return foundContact;
+        }
+        catch (SQLException sqlException) {
+            return null;
+        }
     }
 
     /**

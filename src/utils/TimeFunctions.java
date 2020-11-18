@@ -2,6 +2,7 @@ package utils;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class TimeFunctions {
@@ -29,5 +30,14 @@ public class TimeFunctions {
         localTime = time.toLocalDateTime();
         return localTime;
     }
+
+    public static String formatDateTimeForDisplay(LocalDateTime localDateTime) {
+        String formattedDateTime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd hh:mm a");
+        formattedDateTime = localDateTime.format(formatter);
+        return formattedDateTime;
+    }
+
+
 
 }

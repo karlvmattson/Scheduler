@@ -8,9 +8,9 @@
 
 <!--suppress JavaFxDefaultTag -->
 
-<AnchorPane prefHeight="534.0" prefWidth="829.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scheduler.MainWindow">
+<AnchorPane prefHeight="534.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scheduler.MainWindow">
    <children>
-      <AnchorPane id="childPane" fx:id="childPane" layoutX="200.0" prefHeight="550.0" prefWidth="650.0" styleClass="ChildPane" stylesheets="@scheduler.css" />
+      <AnchorPane id="childPane" fx:id="childPane" layoutX="200.0" prefHeight="550.0" prefWidth="1000.0" styleClass="ChildPane" stylesheets="@scheduler.css" />
       <AnchorPane id="sideMenu" blendMode="SRC_ATOP" prefHeight="550.0" prefWidth="200.0" styleClass="SideMenu" stylesheets="@scheduler.css">
          <children>
             <Label layoutX="14.0" layoutY="14.0" styleClass="Header" stylesheets="@scheduler.css" text="Scheduler">

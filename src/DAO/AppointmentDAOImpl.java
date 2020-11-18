@@ -111,7 +111,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     @Override
     public void deleteAppointment(Appointment deleteTarget) {
         // create and run query
-        String query = "DELETE * FROM appointments WHERE Appointment_ID = " + deleteTarget.getAppointmentID();
+        String query = "DELETE FROM appointments WHERE Appointment_ID = " + deleteTarget.getAppointmentID();
         DBQuery.executePreparedStatement(query);
     }
 
@@ -121,7 +121,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     @Override
     public void deleteAppointmentByCustomer(Customer customer) {
         // create and run query
-        String query = "DELETE * FROM appointments WHERE Customer_ID = " + customer.getCustomerID();
+        String query = "DELETE FROM appointments WHERE Customer_ID = " + customer.getCustomerID();
         DBQuery.executePreparedStatement(query);
     }
 

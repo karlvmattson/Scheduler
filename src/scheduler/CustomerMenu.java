@@ -2,11 +2,27 @@ package scheduler;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import model.Customer;
 import model.User;
 
-public class CustomerMenu implements ChildPaneController{
-    public Button buttonCreateAppointment;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class CustomerMenu implements ChildPaneController, Initializable {
+    @FXML
+    private Button buttonCreateAppointment;
+    @FXML
+    private TableColumn<Customer, String> CustomerPhoneColumn;
+    @FXML
+    private TableColumn<Customer, String> CustomerAddressColumn;
+    @FXML
+    private TableColumn<Customer, String> CustomerPostalCodeColumn;
+    @FXML
+    private TableColumn<Customer, Integer> CustomerIDColumn;
+    @FXML
+    private TableColumn<Customer, String> CustomerNameColumn;
     @FXML
     private TableView<?> tableCustomers;
     @FXML
@@ -40,7 +56,12 @@ public class CustomerMenu implements ChildPaneController{
     @FXML
     private ComboBox<String> comboCountry;
 
-    public CustomerMenu() {
+    private MainWindow mainWindow;
+    private User currentUser;
+
+    @Override
+    public void setMenuController(MainWindow menuController) {
+            mainWindow = menuController;
     }
 
     /**
@@ -49,6 +70,8 @@ public class CustomerMenu implements ChildPaneController{
      */
     @Override
     public void setUser(User user) {
+        currentUser = user;
+        labelUserName.setText(currentUser.getUserName());
     }
 
     public void handleButtonAdd(ActionEvent actionEvent) {
@@ -67,5 +90,11 @@ public class CustomerMenu implements ChildPaneController{
     }
 
     public void handleButtonCreateAppointment(ActionEvent actionEvent) {
+        mainWindow.showMenu("AppointmentMenu");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }

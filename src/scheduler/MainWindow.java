@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.Customer;
 import model.User;
 
 import java.io.IOException;
@@ -37,6 +39,38 @@ public class MainWindow {
     private Button buttonReports;
 
     private User currentUser;
+    private Customer currentCustomer;
+    private Appointment currentAppointment;
+    private Boolean appointmentEditMode;
+
+
+    /**
+     * @return current customer
+     */
+    public Customer getCurrentCustomer() {
+        return currentCustomer;
+    }
+
+    /**
+     * @param currentCustomer customer to set
+     */
+    public void setCurrentCustomer(Customer currentCustomer) {
+        this.currentCustomer = currentCustomer;
+    }
+
+    /**
+     * @return current appointment
+     */
+    public Appointment getCurrentAppointment() {
+        return currentAppointment;
+    }
+
+    /**
+     * @param currentAppointment appointment to set
+     */
+    public void setCurrentAppointment(Appointment currentAppointment) {
+        this.currentAppointment = currentAppointment;
+    }
 
     /**
      * Turns the side menu buttons off.
@@ -89,9 +123,8 @@ public class MainWindow {
      * @param actionEvent button clicked
      */
     public void handleButtonAppointments(ActionEvent actionEvent) {
-        highButton(buttonAppointments);
-        showMenu("AppointmentMenu.fxml");
-
+    //    highButton(buttonAppointments);
+    //    showMenu("AppointmentMenu.fxml");
     }
 
     /**
@@ -132,13 +165,35 @@ public class MainWindow {
         childPane.getChildren().clear();
         showMenu("CustomerMenu.fxml");
         highButton(buttonCustomers);
+        appointmentEditMode = false;
+    }
+
+    public void loadAppointmentMenu() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AppointmentMenu.fxml"));
+            Parent root = fxmlLoader.load();
+
+            // pass the current user to the child pane
+            AppointmentMenu childPaneController = fxmlLoader.getController();
+            childPaneController.setUser(currentUser);
+            childPaneController.setMenuController(this);
+            if(appointmentEditMode) {
+                childPaneController.loadAppointment(currentAppointment);
+            }
+            childPane.getChildren().setAll(root.getChildrenUnmodifiable());
+        }
+        catch(IOException ioException) {
+            System.out.println(ioException.getMessage());
+            ioException.printStackTrace();
+        }
+
     }
 
     /**
-     * Helper function to swap the menu in the child pane.
+     * Changes the displayed menu in the child pane.
      * @param menuFile the fxml file to display in the child pane
      */
-    private void showMenu(String menuFile) {
+    public void showMenu(String menuFile) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(menuFile));
             Parent root = fxmlLoader.load();
@@ -146,11 +201,14 @@ public class MainWindow {
             // pass the current user to the child pane
             ChildPaneController childPaneController = fxmlLoader.getController();
             childPaneController.setUser(currentUser);
+            childPaneController.setMenuController(this);
+
 
             childPane.getChildren().setAll(root.getChildrenUnmodifiable());
         }
         catch(IOException ioException) {
             System.out.println(ioException.getMessage());
+            ioException.printStackTrace();
         }
     }
 
@@ -170,5 +228,13 @@ public class MainWindow {
 
         // highlight the active menu's button
         button.setStyle("-fx-background-color: #D2DBC6");
+    }
+
+    public Boolean getAppointmentEditMode() {
+        return appointmentEditMode;
+    }
+
+    public void setAppointmentEditMode(Boolean appointmentEditMode) {
+        this.appointmentEditMode = appointmentEditMode;
     }
 }

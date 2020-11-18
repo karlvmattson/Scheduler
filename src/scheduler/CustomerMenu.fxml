@@ -12,8 +12,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="650.0" styleClass="ChildPane" stylesheets="@scheduler.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scheduler.CustomerMenu">
-   <BorderPane prefHeight="550.0" prefWidth="650.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" styleClass="ChildPane" stylesheets="@scheduler.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scheduler.CustomerMenu">
+   <BorderPane prefHeight="550.0" prefWidth="1000.0">
       <top>
          <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="630.0" spacing="10.0" BorderPane.alignment="CENTER">
             <opaqueInsets>
@@ -52,19 +52,20 @@
                <Insets />
             </BorderPane.margin>
             <AnchorPane prefHeight="38.0" prefWidth="650.0">
-               <Label layoutX="247.0" layoutY="1.0" styleClass="Header" stylesheets="@scheduler.css" text="Customers"/>
-               <Button fx:id="buttonCreateAppointment" layoutX="433.0" layoutY="1.0" mnemonicParsing="false"
-                       onAction="#handleButtonCreateAppointment" prefHeight="38.0" prefWidth="195.0" styleClass="Button"
-                       text="Create Appointment" wrapText="true"/>
+               <Label layoutX="247.0" layoutY="1.0" styleClass="Header" stylesheets="@scheduler.css" text="Customers" />
+               <Button fx:id="buttonCreateAppointment" layoutX="433.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleButtonCreateAppointment" prefHeight="38.0" prefWidth="195.0" styleClass="Button" text="Create Appointment" wrapText="true" />
             </AnchorPane>
             <TableView fx:id="tableCustomers" prefHeight="233.0" prefWidth="590.0" styleClass="TableView" stylesheets="@scheduler.css">
-               <columns>
-                  <TableColumn prefWidth="75.0" text="C1" />
-                  <TableColumn prefWidth="75.0" text="C2" />
-               </columns>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
+               <columns>
+                  <TableColumn fx:id="CustomerIDColumn" prefWidth="75.0" text="ID" />
+                  <TableColumn fx:id="CustomerNameColumn" prefWidth="201.6666259765625" text="Name" />
+                  <TableColumn fx:id="CustomerPhoneColumn" prefWidth="173.66668701171875" text="Phone" />
+                  <TableColumn fx:id="CustomerAddressColumn" prefWidth="328.33331298828125" text="Address" />
+                  <TableColumn fx:id="CustomerPostalCodeColumn" minWidth="0.0" prefWidth="182.99993896484375" text="Postal Code" />
+               </columns>
             </TableView>
             <HBox prefHeight="156.0" prefWidth="587.0" spacing="5.0">
                <VBox.margin>
@@ -100,19 +101,20 @@
                         </HBox>
                      </VBox>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="575.0" spacing="10.0">
-                     <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="323.0" spacing="3.0">
-                        <Label styleClass="Label" text="First-Level Division:" />
-                        <ComboBox fx:id="comboDivision" prefHeight="25.0" prefWidth="198.0" styleClass="ComboBox" />
-                     </HBox>
-                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
-                        <Label styleClass="Label" text="Country:" />
-                        <ComboBox fx:id="comboCountry" prefHeight="25.0" prefWidth="128.0" styleClass="ComboBox" />
-                     </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="575.0" spacing="10.0" />
+               </VBox>
+               <VBox prefHeight="156.0" prefWidth="343.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
+                     <Label styleClass="Label" text="Country:"/>
+                     <ComboBox fx:id="comboCountry" prefHeight="25.0" prefWidth="128.0" styleClass="ComboBox"/>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="323.0" spacing="3.0">
+                     <Label styleClass="Label" text="First-Level Division:"/>
+                     <ComboBox fx:id="comboDivision" prefHeight="25.0" prefWidth="198.0" styleClass="ComboBox"/>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="154.0">
-                     <Label styleClass="Label" text="Database ID:" />
-                     <TextField fx:id="textID" disable="true" prefHeight="25.0" prefWidth="60.0" styleClass="TextBox" />
+                     <Label styleClass="Label" text="Database ID:"/>
+                     <TextField fx:id="textID" disable="true" prefHeight="25.0" prefWidth="60.0" styleClass="TextBox"/>
                   </HBox>
                </VBox>
             </HBox>

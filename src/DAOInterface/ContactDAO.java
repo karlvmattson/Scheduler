@@ -6,9 +6,9 @@ import model.Contact;
 import java.sql.SQLException;
 
 public interface ContactDAO {
-    Contact getContact(String contactName);
+    Contact getContact(String contactName) throws SQLException;
 
-    Contact getContact(int contactID);
+    Contact getContact(int contactID) throws SQLException;
 
     ObservableList<Contact> getAllContacts() throws SQLException;
 
