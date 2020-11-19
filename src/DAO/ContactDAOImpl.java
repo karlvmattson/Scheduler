@@ -3,7 +3,6 @@ package DAO;
 import DAOInterface.ContactDAO;
 import javafx.collections.ObservableList;
 import model.Contact;
-import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

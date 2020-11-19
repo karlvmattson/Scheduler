@@ -1,8 +1,6 @@
 package scheduler;
 
 import DAO.AppointmentDAOImpl;
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -17,16 +15,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.AppointmentWithContact;
 import model.Customer;
+import model.Division;
 import model.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -135,15 +131,6 @@ public class MainWindow {
     }
 
     /**
-     * Change to the Appointment menu
-     * @param actionEvent button clicked
-     */
-    public void handleButtonAppointments(ActionEvent actionEvent) {
-    //    highButton(buttonAppointments);
-    //    showMenu("AppointmentMenu.fxml");
-    }
-
-    /**
      * Change to the View Schedule menu
      * @param actionEvent button clicked
      */
@@ -176,19 +163,20 @@ public class MainWindow {
      * @param user user who just logged in
      */
     public void logInUser(User user) {
+        appointmentEditMode = false;
         currentUser = user;
         enableSideButtons();
         childPane.getChildren().clear();
         showMenu("CustomerMenu.fxml");
         highButton(buttonCustomers);
-        appointmentEditMode = false;
+
         checkUpcomingAppointment();
     }
 
     /**
      * Loads AppointmentMenu and sets it up for either record creation or update based on appointmentEditMode.
      */
-    public void loadAppointmentMenu() {
+    public void showAppointmentMenu() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AppointmentMenu.fxml"));
             Parent root = fxmlLoader.load();
@@ -199,6 +187,10 @@ public class MainWindow {
             childPaneController.setMenuController(this);
             if(appointmentEditMode) {
                 childPaneController.loadAppointment(currentAppointment);
+            }
+            else
+            {
+                childPaneController.newAppointment(currentCustomer.getCustomerID());
             }
             childPane.getChildren().setAll(root.getChildrenUnmodifiable());
             disableSideButtons();

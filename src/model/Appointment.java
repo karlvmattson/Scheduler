@@ -38,6 +38,22 @@ public class Appointment {
         this.contactID = contactID;
     }
 
+    public Appointment(String title, String description, String location, String type, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.type = type;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        CreateDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.customerID = customerID;
+        this.userID = userID;
+        this.contactID = contactID;
+    }
+
     /**
      * @return the appointment ID
      */

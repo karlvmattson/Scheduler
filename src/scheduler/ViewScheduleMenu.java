@@ -97,7 +97,7 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
             Appointment selected = tableAppointments.getSelectionModel().getSelectedItem();
             mainWindow.setCurrentAppointment(selected);
             mainWindow.setAppointmentEditMode(true);
-            mainWindow.loadAppointmentMenu();
+            mainWindow.showAppointmentMenu();
         } else {
             labelError.setText("Please select an appointment first.");
             labelError.setVisible(true);
@@ -167,6 +167,7 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
     private void buildSchedule(FilteredList<AppointmentWithContact> sourceList) {
         SortedList<AppointmentWithContact> sortedList = new SortedList<>(sourceList);
         tableAppointments.setItems(sortedList);
+        sortedList.comparatorProperty().bind(tableAppointments.comparatorProperty());
     }
 
     /**

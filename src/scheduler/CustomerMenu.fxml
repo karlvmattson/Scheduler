@@ -14,34 +14,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" styleClass="ChildPane" stylesheets="@scheduler.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scheduler.CustomerMenu">
    <BorderPane prefHeight="550.0" prefWidth="1000.0">
-      <top>
-         <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="630.0" spacing="10.0" BorderPane.alignment="CENTER">
-            <opaqueInsets>
-               <Insets />
-            </opaqueInsets>
-            <BorderPane.margin>
-               <Insets left="20.0" />
-            </BorderPane.margin>
-            <Label maxWidth="113.0" minWidth="113.0" prefHeight="17.0" prefWidth="113.0" styleClass="Label" stylesheets="@scheduler.css" text="First-Level Division: " />
-            <ComboBox fx:id="comboFilterDivision" prefHeight="25.0" prefWidth="248.0" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="296.0" spacing="10.0">
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-               <Label styleClass="Label" stylesheets="@scheduler.css" text="Country: " />
-               <ComboBox fx:id="comboFilterCountry" prefWidth="150.0" />
-            </HBox>
-         </HBox>
-      </top>
       <bottom>
          <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="650.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                <Insets right="20.0" />
             </BorderPane.margin>
-            <HBox prefHeight="46.0" prefWidth="268.0" spacing="20.0">
-               <Button fx:id="buttonSave" mnemonicParsing="false" onAction="#handleButtonSave" prefWidth="100.0" styleClass="Button" text="Save" />
-               <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#handleButtonCancel" prefWidth="100.0" styleClass="Button" text="Cancel" />
-            </HBox>
             <Label styleClass="Label" stylesheets="@scheduler.css" text="Logged in as: " />
             <Label fx:id="labelUserName" prefHeight="17.0" styleClass="Label" stylesheets="@scheduler.css" text="userName" />
          </HBox>
@@ -51,9 +28,10 @@
             <BorderPane.margin>
                <Insets />
             </BorderPane.margin>
-            <AnchorPane prefHeight="38.0" prefWidth="650.0">
-               <Label layoutX="247.0" layoutY="1.0" styleClass="Header" stylesheets="@scheduler.css" text="Customers" />
-               <Button fx:id="buttonCreateAppointment" layoutX="433.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleButtonCreateAppointment" prefHeight="38.0" prefWidth="195.0" styleClass="Button" text="Create Appointment" wrapText="true" />
+            <AnchorPane prefHeight="72.0" prefWidth="1000.0">
+               <Label layoutX="422.0" layoutY="7.0" styleClass="Header" stylesheets="@scheduler.css" text="Customers" />
+               <Button fx:id="buttonCreateAppointment" layoutX="707.0" layoutY="3.0" mnemonicParsing="false" onAction="#handleButtonCreateAppointment" prefHeight="38.0" prefWidth="195.0" styleClass="Button" text="Create Appointment" wrapText="true" />
+               <Label fx:id="labelSelectCustomerFirstError" layoutX="718.0" layoutY="43.0" prefHeight="17.0" prefWidth="241.0" styleClass="Label" text="Please select a customer first." visible="false" />
             </AnchorPane>
             <TableView fx:id="tableCustomers" prefHeight="233.0" prefWidth="590.0" styleClass="TableView" stylesheets="@scheduler.css">
                <VBox.margin>
@@ -63,21 +41,22 @@
                   <TableColumn fx:id="CustomerIDColumn" prefWidth="75.0" text="ID" />
                   <TableColumn fx:id="CustomerNameColumn" prefWidth="201.6666259765625" text="Name" />
                   <TableColumn fx:id="CustomerPhoneColumn" prefWidth="173.66668701171875" text="Phone" />
-                  <TableColumn fx:id="CustomerAddressColumn" prefWidth="328.33331298828125" text="Address" />
-                  <TableColumn fx:id="CustomerPostalCodeColumn" minWidth="0.0" prefWidth="182.99993896484375" text="Postal Code" />
+                  <TableColumn fx:id="CustomerAddressColumn" prefWidth="235.3333740234375" text="Address" />
+                  <TableColumn fx:id="CustomerPostalCodeColumn" minWidth="0.0" prefWidth="122.6666259765625" text="Postal Code" />
+                  <TableColumn fx:id="CustomerDivisionColumn" prefWidth="145.666748046875" text="Division" />
                </columns>
             </TableView>
             <HBox prefHeight="156.0" prefWidth="587.0" spacing="5.0">
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
-               <VBox prefHeight="156.0" prefWidth="104.0" spacing="5.0">
+               <VBox fx:id="boxAddModDelete" prefHeight="156.0" prefWidth="104.0" spacing="5.0">
                   <Button fx:id="buttonAdd" mnemonicParsing="false" onAction="#handleButtonAdd" prefWidth="100.0" styleClass="Button" text="Add" />
                   <Button fx:id="buttonModify" mnemonicParsing="false" onAction="#handleButtonModify" prefWidth="100.0" styleClass="Button" text="Modify" />
                   <Button fx:id="buttonDelete" mnemonicParsing="false" onAction="#handleButtonDelete" prefWidth="100.0" styleClass="Button" text="Delete" />
                </VBox>
                <VBox prefHeight="156.0" prefWidth="500.0">
-                  <HBox prefHeight="100.0" prefWidth="500.0">
+                  <HBox fx:id="boxEdit1" prefHeight="100.0" prefWidth="500.0" visible="false">
                      <VBox prefHeight="100.0" prefWidth="316.0">
                         <VBox prefHeight="91.0" prefWidth="266.0">
                            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
@@ -101,23 +80,25 @@
                         </HBox>
                      </VBox>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="575.0" spacing="10.0" />
                </VBox>
-               <VBox prefHeight="156.0" prefWidth="343.0">
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
-                     <Label styleClass="Label" text="Country:"/>
-                     <ComboBox fx:id="comboCountry" prefHeight="25.0" prefWidth="128.0" styleClass="ComboBox"/>
+               <VBox fx:id="boxEdit2" prefHeight="156.0" prefWidth="343.0" visible="false">
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="343.0" spacing="3.0">
+                     <Label prefHeight="15.0" prefWidth="106.0" styleClass="Label" text="Country:" />
+                     <ComboBox fx:id="comboCountry" onAction="#handleComboCountryChange" prefHeight="25.0" prefWidth="197.0" styleClass="ComboBox" />
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="323.0" spacing="3.0">
-                     <Label styleClass="Label" text="First-Level Division:"/>
-                     <ComboBox fx:id="comboDivision" prefHeight="25.0" prefWidth="198.0" styleClass="ComboBox"/>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="343.0" spacing="3.0">
+                     <Label styleClass="Label" text="First-Level Division:" />
+                     <ComboBox fx:id="comboDivision" prefHeight="25.0" prefWidth="198.0" styleClass="ComboBox" />
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="154.0">
-                     <Label styleClass="Label" text="Database ID:"/>
-                     <TextField fx:id="textID" disable="true" prefHeight="25.0" prefWidth="60.0" styleClass="TextBox"/>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="154.0" spacing="10.0">
+                     <Label prefHeight="15.0" prefWidth="82.0" styleClass="Label" text="Database ID:" />
+                     <TextField fx:id="textID" disable="true" prefHeight="25.0" prefWidth="60.0" styleClass="TextBox" />
+                     <Button fx:id="buttonSave" mnemonicParsing="false" onAction="#handleButtonSave" prefWidth="100.0" styleClass="Button" text="Save" />
+                     <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#handleButtonCancel" prefWidth="100.0" styleClass="Button" text="Cancel" />
                   </HBox>
                </VBox>
             </HBox>
+            <Label fx:id="labelModifyError" alignment="CENTER" prefHeight="16.0" prefWidth="932.0" styleClass="Label" text="Please select a customer first." visible="false" />
          </VBox>
       </center></BorderPane>
 </AnchorPane>

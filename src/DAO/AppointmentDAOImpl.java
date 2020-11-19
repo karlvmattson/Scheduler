@@ -1,6 +1,7 @@
 package DAO;
 
 import DAOInterface.AppointmentDAO;
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import javafx.collections.ObservableList;
 import model.Appointment;
 import model.Customer;
@@ -96,12 +97,14 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         // create query
         String query = "UPDATE appointments " +
                 "SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, " +
-                "Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ?, " +
-                "WHERE Appointment_ID = " + toUpdate.getAppointmentID();
+                "Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? " +
+                "WHERE Appointment_ID = ?";
         DBQuery.setPreparedStatement(query);
 
         // fill in values in prepared statement and execute
         fillInPS(toUpdate);
+        PreparedStatement statement = DBQuery.getPreparedStatement();
+        statement.setInt(14,toUpdate.getAppointmentID());
         DBQuery.executePreparedStatement();
     }
 
@@ -148,6 +151,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         statement.setInt(11, appointment.getCustomerID());
         statement.setInt(12, appointment.getUserID());
         statement.setInt(13, appointment.getContactID());
+
     }
 
     /**

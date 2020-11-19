@@ -107,7 +107,11 @@ public class Country {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
+    /**
+     * Returns country name as a String.
+     * @return country name
+     */
     public String toString() {
-        return "ID: " + countryID + " Country: " + country;
+        return country;
     }
 }

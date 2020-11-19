@@ -1,10 +1,12 @@
 package DAO;
 
 import DAOInterface.CountryDAO;
+import model.Contact;
 import utils.TimeFunctions;
 import javafx.collections.ObservableList;
 import model.Country;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,16 +20,26 @@ public class CountryDAOImpl implements CountryDAO {
      */
     @Override
     public Country getCountry(String countryName) {
-        ResultSet result;
-        Country foundCountry;
+        try {
+            Connection conn = DBConnection.getConnection();
+            ResultSet result;
+            Country foundCountry;
 
-        // create and run query
-        String query = "SELECT * FROM countries WHERE Country = " + countryName;
-        result = DBQuery.executePreparedStatement(query);
+            // create and run query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM countries WHERE Country_Name = ?",
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            preparedStatement.setString(1, countryName);
+            result = preparedStatement.executeQuery();
 
-        // create and return country if result is found
-        foundCountry = makeCountryFromResult(result);
-        return foundCountry;
+            // create and return contact if result is found
+            result.first();
+            foundCountry = makeCountryFromResult(result);
+            return foundCountry;
+        }
+        catch (SQLException sqlException) {
+            return null;
+        }
     }
 
     /**
@@ -36,16 +48,26 @@ public class CountryDAOImpl implements CountryDAO {
      */
     @Override
     public Country getCountry(int countryID) {
-        ResultSet result;
-        Country foundCountry;
+        try {
+            Connection conn = DBConnection.getConnection();
+            ResultSet result;
+            Country foundCountry;
 
-        // create and run query
-        String query = "SELECT * FROM countries WHERE Country_ID = " + countryID;
-        result = DBQuery.executePreparedStatement(query);
+            // create and run query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM countries WHERE Country_ID = ?",
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            preparedStatement.setInt(1, countryID);
+            result = preparedStatement.executeQuery();
 
-        // create country if result is found
-        foundCountry = makeCountryFromResult(result);
-        return foundCountry;
+            // create and return contact if result is found
+            result.first();
+            foundCountry = makeCountryFromResult(result);
+            return foundCountry;
+        }
+        catch (SQLException sqlException) {
+            return null;
+        }
     }
 
     /**

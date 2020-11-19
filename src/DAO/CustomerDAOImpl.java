@@ -2,9 +2,11 @@ package DAO;
 
 import DAOInterface.CustomerDAO;
 import javafx.collections.ObservableList;
+import model.Contact;
 import model.Customer;
 import utils.TimeFunctions;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,16 +19,26 @@ public class CustomerDAOImpl implements CustomerDAO {
      */
     @Override
     public Customer getCustomer(String customerName) {
-        ResultSet result;
-        Customer foundCustomer;
+        try {
+            Connection conn = DBConnection.getConnection();
+            ResultSet result;
+            Customer foundCustomer;
 
-        // create and run query
-        String query = "SELECT * FROM customers WHERE Customer_Name = " + customerName;
-        result = DBQuery.executePreparedStatement(query);
+            // create and run query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM customers WHERE Customer_Name = ?",
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            preparedStatement.setString(1, customerName);
+            result = preparedStatement.executeQuery();
 
-        // create and return customer if result is found
-        foundCustomer = makeCustomerFromResult(result);
-        return foundCustomer;
+            // create and return contact if result is found
+            result.first();
+            foundCustomer = makeCustomerFromResult(result);
+            return foundCustomer;
+        }
+        catch (SQLException sqlException) {
+            return null;
+        }
     }
 
     /**
@@ -35,16 +47,26 @@ public class CustomerDAOImpl implements CustomerDAO {
      */
     @Override
     public Customer getCustomer(int customerID) {
-        ResultSet result;
-        Customer foundCustomer;
+        try {
+            Connection conn = DBConnection.getConnection();
+            ResultSet result;
+            Customer foundCustomer;
 
-        // create and run query
-        String query = "SELECT * FROM customers WHERE Customer_ID = " + customerID;
-        result = DBQuery.executePreparedStatement(query);
+            // create and run query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM customers WHERE Customer_ID = ?",
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            preparedStatement.setInt(1, customerID);
+            result = preparedStatement.executeQuery();
 
-        // create customer if result is found
-        foundCustomer = makeCustomerFromResult(result);
-        return foundCustomer;
+            // create and return contact if result is found
+            result.first();
+            foundCustomer = makeCustomerFromResult(result);
+            return foundCustomer;
+        }
+        catch (SQLException sqlException) {
+            return null;
+        }
     }
 
     /**
