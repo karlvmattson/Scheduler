@@ -23,7 +23,7 @@
          <PasswordField fx:id="passwordField" layoutX="490.0" layoutY="154.0" styleClass="TextBox" stylesheets="@scheduler.css" />
          <Label fx:id="labelUserName" layoutX="360.0" layoutY="84.0" prefHeight="15.0" prefWidth="125.0" styleClass="Label" stylesheets="@scheduler.css" text="%label.labelUserName" />
          <Label fx:id="labelPassword" layoutX="360.0" layoutY="158.0" prefHeight="15.0" prefWidth="125.0" styleClass="Label" stylesheets="@scheduler.css" text="%label.labelPassword" />
-         <Label fx:id="labelErrorMessage" alignment="CENTER" layoutX="139.0" layoutY="204.0" prefHeight="17.0" prefWidth="372.0" styleClass="Message" stylesheets="@scheduler.css" text="%label.labelErrorMessage" visible="false" />
+         <Label fx:id="labelErrorMessage" alignment="CENTER" layoutX="314.0" layoutY="199.0" prefHeight="17.0" prefWidth="372.0" styleClass="Message" stylesheets="@scheduler.css" text="%label.labelErrorMessage" visible="false" />
       </AnchorPane>
    </center>
    <bottom>

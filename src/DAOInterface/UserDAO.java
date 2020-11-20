@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public interface UserDAO {
     User getUser(String userName) throws SQLException;
 
-    User getUser(int userID);
+    User getUser(int userID) throws SQLException;
 
     ObservableList<User> getAllUsers() throws SQLException;
 

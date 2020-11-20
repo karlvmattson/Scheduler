@@ -14,6 +14,15 @@ public class Country {
     private LocalDateTime lastUpdate;
     private String lastUpdatedBy;
 
+    /**
+     * Constructor.
+     * @param countryID DB country ID
+     * @param country name of country
+     * @param createDate date record created
+     * @param createdBy user who created record
+     * @param lastUpdate date of last update
+     * @param lastUpdatedBy user who last updated record
+     */
     public Country(int countryID, String country, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) {
         this.countryID = countryID;
         this.country = country;

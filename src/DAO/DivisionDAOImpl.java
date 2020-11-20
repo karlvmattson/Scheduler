@@ -2,7 +2,6 @@ package DAO;
 
 import DAOInterface.DivisionDAO;
 import javafx.collections.ObservableList;
-import model.Customer;
 import model.Division;
 import utils.TimeFunctions;
 

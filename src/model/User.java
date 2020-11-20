@@ -11,6 +11,16 @@ public class User {
     private LocalDateTime lastUpdated;
     private String lastUpdatedBy;
 
+    /**
+     * Constructor.
+     * @param userID DB User ID
+     * @param userName name of user
+     * @param password password of user
+     * @param createDate date record created
+     * @param createdBy user who created record
+     * @param lastUpdated date of last update
+     * @param lastUpdatedBy user who last updated record
+     */
     public User(int userID, String userName, String password, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdated, String lastUpdatedBy) {
         this.userID = userID;
         this.userName = userName;
@@ -119,6 +129,10 @@ public class User {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
+    /**
+     * Returns a String representation of the object.
+     * @return object as String
+     */
     @Override
     public String toString() {
         return "User{" +

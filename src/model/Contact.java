@@ -8,6 +8,12 @@ public class Contact {
     private String contactName;
     private String email;
 
+    /**
+     * Constructor
+     * @param contactID DB contact ID
+     * @param contactName contact name
+     * @param email contact email
+     */
     public Contact(int contactID, String contactName, String email) {
         this.contactID = contactID;
         this.contactName = contactName;
@@ -56,6 +62,10 @@ public class Contact {
         this.email = email;
     }
 
+    /**
+     * Returns a String representation of the object.
+     * @return object as String
+     */
     @Override
     public String toString() {
         return contactName;

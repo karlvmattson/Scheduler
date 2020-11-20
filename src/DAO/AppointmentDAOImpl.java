@@ -1,7 +1,6 @@
 package DAO;
 
 import DAOInterface.AppointmentDAO;
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
@@ -11,7 +10,6 @@ import utils.TimeFunctions;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.time.LocalDateTime;
 
 public class AppointmentDAOImpl implements AppointmentDAO {

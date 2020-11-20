@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -27,9 +26,6 @@ public class AppointmentMenu implements ChildPaneController, Initializable {
 
     @FXML
     private Label labelUserName;
-    private Button buttonAdd;
-    private Button buttonModify;
-    private Button buttonDelete;
     @FXML
     private ComboBox<Contact> comboContact;
     @FXML
@@ -56,16 +52,16 @@ public class AppointmentMenu implements ChildPaneController, Initializable {
     private TextField textUserID;
     @FXML
     private Label labelError;
-    @FXML
-    private Button buttonSave;
-    @FXML
-    private Button buttonCancel;
 
     private User currentUser; // the logged in user
     private MainWindow mainWindow; // controller for main window
     private Appointment newAppointment; // the appointment being modified
     private Boolean editMode; // flag for whether we are editing or creating an Appointment
 
+    /**
+     * Saves the new or modified appointment. Calls validation methods to check for errors in input.
+     * @param actionEvent actionEvent
+     */
     public void handleButtonSave(ActionEvent actionEvent) {
 
         // Validate entries
@@ -281,6 +277,10 @@ public class AppointmentMenu implements ChildPaneController, Initializable {
         }
     }
 
+    /**
+     * Saves the selected CustomerID for use when creating a new appointment record.
+     * @param useCustomerID the customerID to use for the new appointment
+     */
     public void newAppointment(int useCustomerID) {
         textCustomerID.setText(String.valueOf(useCustomerID));
         textUserID.setText(String.valueOf(currentUser.getUserID()));

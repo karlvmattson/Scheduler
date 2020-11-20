@@ -13,6 +13,11 @@ import java.util.Locale;
 
 public class Main extends Application {
 
+    /**
+     * Creates the initial program window and loads the first page.
+     * @param primaryStage GUI stage
+     * @throws Exception exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
@@ -27,15 +32,16 @@ public class Main extends Application {
         primaryStage.setTitle("WGU C195 - Scheduling Application - Karl Mattson");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-
-
-
-
     }
 
 
-    public static void main(String[] args) throws SQLException {
+    /**
+     * Main method.
+     * @param args args
+     */
+    public static void main(String[] args) {
 
+        // check that user language is either English or French
         if(!(Locale.getDefault().toString().startsWith("en") || Locale.getDefault().toString().startsWith("fr"))) {
             System.out.println(Locale.getDefault());
             System.out.println("System language must be set to English or French.");
@@ -45,16 +51,10 @@ public class Main extends Application {
         // Startup DB connection
         DBConnection.startConnection();
 
-        UserDAOImpl userDAO = new UserDAOImpl();
-        userDAO.getAllUsers();
-
-//        String sqlStatement = "";
-//        DBQuery.setPreparedStatement(conn, sqlStatement); // Create Statement
-//        PreparedStatement statement = DBQuery.getPreparedStatement(); // Get Statement
-
+        // run program
         launch(args);
 
-        // Close DB connection
+        // Close DB connection when user closes program
         DBConnection.closeConnection();
     }
 }

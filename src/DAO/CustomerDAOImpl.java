@@ -2,7 +2,6 @@ package DAO;
 
 import DAOInterface.CustomerDAO;
 import javafx.collections.ObservableList;
-import model.Contact;
 import model.Customer;
 import utils.TimeFunctions;
 

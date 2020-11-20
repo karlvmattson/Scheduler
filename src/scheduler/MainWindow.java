@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
-import model.Division;
 import model.User;
 
 import java.io.IOException;
@@ -244,14 +243,6 @@ public class MainWindow {
     }
 
     /**
-     * Returns true if user intends to edit an Appointment record.
-     * @return appointmentEditMode
-     */
-    public Boolean getAppointmentEditMode() {
-        return appointmentEditMode;
-    }
-
-    /**
      * Sets appointmentEditMode.
      * @param appointmentEditMode true if user intends to edit an Appointment record.
      */
@@ -260,13 +251,7 @@ public class MainWindow {
     }
 
     /**
-     * @return current customer
-     */
-    public Customer getCurrentCustomer() {
-        return currentCustomer;
-    }
-
-    /**
+     * Setter.
      * @param currentCustomer customer to set
      */
     public void setCurrentCustomer(Customer currentCustomer) {
@@ -274,13 +259,7 @@ public class MainWindow {
     }
 
     /**
-     * @return current appointment
-     */
-    public Appointment getCurrentAppointment() {
-        return currentAppointment;
-    }
-
-    /**
+     * Setter.
      * @param currentAppointment appointment to set
      */
     public void setCurrentAppointment(Appointment currentAppointment) {

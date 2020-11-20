@@ -12,6 +12,16 @@ public class Division {
     private String lastUpdatedBy;
     private int countryID;
 
+    /**
+     * Constructor.
+     * @param divisionID DB Division ID
+     * @param division name of division
+     * @param createDate date record created
+     * @param createdBy user who created record
+     * @param lastUpdate date of last update
+     * @param lastUpdatedBy user who last updated record
+     * @param countryID FK Country ID
+     */
     public Division(int divisionID, String division, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int countryID) {
         this.divisionID = divisionID;
         this.division = division;
@@ -120,6 +130,10 @@ public class Division {
         this.countryID = countryID;
     }
 
+    /**
+     * Returns a String representation of the object.
+     * @return object as String
+     */
     @Override
     public String toString() {
         return division;

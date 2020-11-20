@@ -58,7 +58,7 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
 
     private User currentUser;  // logged in user
     private MainWindow mainWindow;  // controller for main window
-    private ObservableList<AppointmentWithContact> appointmentList = FXCollections.observableArrayList();  // list of all Appointments
+    private final ObservableList<AppointmentWithContact> appointmentList = FXCollections.observableArrayList();  // list of all Appointments
 
 
     /**

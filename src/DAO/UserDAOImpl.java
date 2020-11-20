@@ -30,7 +30,8 @@ public class UserDAOImpl implements UserDAO {
         result = preparedStatement.executeQuery();
 
         // create and return user if result is found
-        result.first();
+
+        if(!result.next()) { return null; }
         foundUser = makeUserFromResult(result);
         return foundUser;
     }
@@ -40,7 +41,7 @@ public class UserDAOImpl implements UserDAO {
      * @return the User object
      */
     @Override
-    public User getUser(int userID) {
+    public User getUser(int userID) throws SQLException {
         ResultSet result;
         User foundUser;
 
@@ -49,6 +50,7 @@ public class UserDAOImpl implements UserDAO {
         result = DBQuery.executePreparedStatement(query);
 
         // create user if result is found
+        if(!result.next()) { return null; }
         foundUser = makeUserFromResult(result);
         return foundUser;
     }

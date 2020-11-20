@@ -131,8 +131,8 @@
                <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="359.0">
                   <Label fx:id="labelError" prefHeight="49.0" prefWidth="354.0" styleClass="Label" text="Error Messages" visible="false" wrapText="true" />
                </HBox>
-               <Button fx:id="buttonSave" mnemonicParsing="false" onAction="#handleButtonSave" prefWidth="100.0" styleClass="Button" text="Save" />
-               <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#handleButtonCancel" prefWidth="100.0" styleClass="Button" text="Cancel" />
+               <Button mnemonicParsing="false" onAction="#handleButtonSave" prefWidth="100.0" styleClass="Button" text="Save" />
+               <Button mnemonicParsing="false" onAction="#handleButtonCancel" prefWidth="100.0" styleClass="Button" text="Cancel" />
                <padding>
                   <Insets top="30.0" />
                </padding>

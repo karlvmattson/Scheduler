@@ -63,12 +63,15 @@ public class LoginMenu implements Initializable {
         UserDAOImpl userDAO = new UserDAOImpl();
         User user;
         LocalDateTime currentTime = java.time.LocalDateTime.now();
-        String logMessage = currentTime.toString() + " - ";
+        String logMessage = "\n" + currentTime.toString() + " - ";
         String logFile = "login.txt";
 
         // get user if one matches the typed username
         try {
             user = userDAO.getUser(textUserName.getText());
+
+            // check that username is valid
+            if(user == null) { throw new Exception("User not found."); }
 
             // check password
             if(user.getPassword().equals(passwordField.getText())) {
@@ -83,7 +86,8 @@ public class LoginMenu implements Initializable {
             }
         }
         catch(SQLException sqlException) {
-            // This exception indicates that the username was not found
+
+            sqlException.printStackTrace();
         }
         catch(Exception exception) {
             System.out.println(exception.getMessage());
@@ -120,14 +124,4 @@ public class LoginMenu implements Initializable {
         labelComputerRegion.setText(tz.getDisplayName());
 
     }
-
-    /**
-     * Helper function to log attempts at logging into the system. Outputs to a text file.
-     * @param message the message to log
-     */
-    private void logAttempt(String message) {
-
     }
-
-
-}

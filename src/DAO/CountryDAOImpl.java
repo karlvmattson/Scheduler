@@ -1,7 +1,6 @@
 package DAO;
 
 import DAOInterface.CountryDAO;
-import model.Contact;
 import utils.TimeFunctions;
 import javafx.collections.ObservableList;
 import model.Country;

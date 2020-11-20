@@ -21,6 +21,23 @@ public class Appointment {
     private int userID;
     private int contactID;
 
+    /**
+     * Constructor.
+     * @param appointmentID DB appointment ID
+     * @param title title
+     * @param description description
+     * @param location location
+     * @param type type
+     * @param startTime appointment start time
+     * @param endTime appointment end time
+     * @param createDate date record created
+     * @param createdBy user who created record
+     * @param lastUpdate date of last update
+     * @param lastUpdatedBy user who last updated record
+     * @param customerID FK customer ID
+     * @param userID FK user ID
+     * @param contactID FK contact ID
+     */
     public Appointment(int appointmentID, String title, String description, String location, String type, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
@@ -38,6 +55,22 @@ public class Appointment {
         this.contactID = contactID;
     }
 
+    /**
+     * Constructor.
+     * @param title title
+     * @param description description
+     * @param location location
+     * @param type type
+     * @param startTime appointment start time
+     * @param endTime appointment end time
+     * @param createDate date record created
+     * @param createdBy user who created record
+     * @param lastUpdate date of last update
+     * @param lastUpdatedBy user who last updated record
+     * @param customerID FK customer ID
+     * @param userID FK user ID
+     * @param contactID FK contact ID
+     */
     public Appointment(String title, String description, String location, String type, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
         this.title = title;
         this.description = description;
@@ -250,6 +283,10 @@ public class Appointment {
         this.contactID = contactID;
     }
 
+    /**
+     * Returns a String representation of the object.
+     * @return object as String
+     */
     @Override
     public String toString() {
         return "Appointment{" +

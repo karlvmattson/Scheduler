@@ -11,17 +11,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.*;
-import utils.TimeFunctions;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -86,6 +82,10 @@ public class CustomerMenu implements ChildPaneController, Initializable {
     private Boolean modifyRecord;
     private Customer modifyCustomer;
 
+    /**
+     * Loads menu to add a new customer record.
+     * @param actionEvent actionEvent
+     */
     public void handleButtonAdd(ActionEvent actionEvent) {
         hideErrors();
         modifyRecord = false;
@@ -98,6 +98,10 @@ public class CustomerMenu implements ChildPaneController, Initializable {
         showEditFields();
     }
 
+    /**
+     * Loads menu to modify the selected record.
+     * @param actionEvent actionEvent
+     */
     public void handleButtonModify(ActionEvent actionEvent) {
         hideErrors();
         Customer customer;
@@ -119,6 +123,10 @@ public class CustomerMenu implements ChildPaneController, Initializable {
         showEditFields();
     }
 
+    /**
+     * Deletes the selected customer.
+     * @param actionEvent actionEvent
+     */
     public void handleButtonDelete(ActionEvent actionEvent) {
         hideErrors();
 
@@ -157,6 +165,11 @@ public class CustomerMenu implements ChildPaneController, Initializable {
 
         return true;
     }
+
+    /**
+     * Saves the new or modified customer. Calls validation methods to ensure input is correct.
+     * @param actionEvent actionEvent
+     */
     public void handleButtonSave(ActionEvent actionEvent) {
         hideErrors();
 
@@ -208,6 +221,10 @@ public class CustomerMenu implements ChildPaneController, Initializable {
         hideEditFields();
     }
 
+    /**
+     * Cancels customer create/edit.
+     * @param actionEvent actionEvent
+     */
     public void handleButtonCancel(ActionEvent actionEvent) {
         hideErrors();
         hideEditFields();

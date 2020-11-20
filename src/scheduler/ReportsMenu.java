@@ -27,6 +27,10 @@ public class ReportsMenu implements ChildPaneController, Initializable {
     private MainWindow mainWindow;
     private User currentUser;
 
+    /**
+     * Stores the controller from the main window.
+     * @param menuController Controller for main window, needed for communication.
+     */
     @Override
     public void setMenuController(MainWindow menuController) {
         mainWindow = menuController;
@@ -42,6 +46,10 @@ public class ReportsMenu implements ChildPaneController, Initializable {
         labelUserName.setText(currentUser.getUserName());
     }
 
+    /**
+     * Highlights button and runs selected report.
+     * @param actionEvent actionEvent
+     */
     public void handleButtonAppointmentTotals(ActionEvent actionEvent) {
         resetButtons();
         buttonAppointmentTotals.setStyle("-fx-background-color: #3BAD5B");
@@ -49,24 +57,40 @@ public class ReportsMenu implements ChildPaneController, Initializable {
         textReportWindow.setText(ReportFunctions.getReport("AppointmentTotals"));
     }
 
+    /**
+     * Highlights button and runs selected report.
+     * @param actionEvent actionEvent
+     */
     public void handleButtonContactSchedule(ActionEvent actionEvent) {
         resetButtons();
         buttonContactSchedule.setStyle("-fx-background-color: #3BAD5B");
         textReportWindow.setText(ReportFunctions.getReport("ContactSchedule"));
     }
 
+    /**
+     * Highlights button and runs selected report.
+     * @param actionEvent actionEvent
+     */
     public void handleButtonDivisionReport(ActionEvent actionEvent) {
         resetButtons();
         buttonDivisionReport.setStyle("-fx-background-color: #3BAD5B");
         textReportWindow.setText(ReportFunctions.getReport("DivisionReport"));
     }
 
+    /**
+     * Sets up window.
+     * @param url url
+     * @param resourceBundle rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         resetButtons();
 
     }
 
+    /**
+     * Resets buttons to be deselected.
+     */
     private void resetButtons() {
         buttonAppointmentTotals.setStyle("-fx-background-color: #789455");
         buttonContactSchedule.setStyle("-fx-background-color: #789455");

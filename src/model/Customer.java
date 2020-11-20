@@ -17,6 +17,19 @@ public class Customer {
     private String lastUpdatedBy;
     private int divisionID;
 
+    /**
+     * Constructor.
+     * @param customerID DB Customer ID
+     * @param customerName customer name
+     * @param address customer address
+     * @param postalCode customer postal code
+     * @param phone customer phone
+     * @param createDate date record created
+     * @param createdBy user who created record
+     * @param lastUpdate date of last update
+     * @param lastUpdatedBy user who last updated record
+     * @param divisionID FK Division ID
+     */
     public Customer(int customerID, String customerName, String address, String postalCode, String phone, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionID) {
         this.customerID = customerID;
         this.customerName = customerName;
@@ -30,6 +43,18 @@ public class Customer {
         this.divisionID = divisionID;
     }
 
+    /**
+     * Constructor.
+     * @param customerName customer name
+     * @param address customer address
+     * @param postalCode customer postal code
+     * @param phone customer phone
+     * @param createDate date record created
+     * @param createdBy user who created record
+     * @param lastUpdate date of last update
+     * @param lastUpdatedBy user who last updated record
+     * @param divisionID FK Division ID
+     */
     public Customer(String customerName, String address, String postalCode, String phone, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionID) {
         this.customerName = customerName;
         this.address = address;
@@ -182,6 +207,10 @@ public class Customer {
         this.divisionID = divisionID;
     }
 
+    /**
+     * Returns a String representation of the object.
+     * @return object as String
+     */
     @Override
     public String toString() {
         return "Customer{" +
