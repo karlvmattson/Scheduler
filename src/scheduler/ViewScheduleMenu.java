@@ -22,6 +22,9 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the appointment viewing menu.
+ */
 public class ViewScheduleMenu implements ChildPaneController, Initializable {
     @FXML
     private TableColumn<Appointment, Integer> AppointmentIDColumn;

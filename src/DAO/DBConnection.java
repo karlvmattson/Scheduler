@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Connection to the database. Contains necessary information to initiate and terminate the connection.
+ */
 @SuppressWarnings("SpellCheckingInspection")
 public class DBConnection {
 

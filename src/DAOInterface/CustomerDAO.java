@@ -5,6 +5,9 @@ import model.Customer;
 
 import java.sql.SQLException;
 
+/**
+ * Defines interface for working with Customer objects.
+ */
 public interface CustomerDAO {
     Customer getCustomer(String customerName);
 

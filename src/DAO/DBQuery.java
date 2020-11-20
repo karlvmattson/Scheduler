@@ -4,6 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Handles running queries against the database. Creates/runs PreparedStatements.
+ */
 public class DBQuery {
 
     private static PreparedStatement statement; //Statement reference
@@ -12,6 +15,7 @@ public class DBQuery {
      * Create PreparedStatement object
      *
      * @param sqlStatement the SQL query to set up
+     * @throws SQLException sqlException
      */
     public static void setPreparedStatement(String sqlStatement) throws SQLException {
         statement = DBConnection.conn.prepareStatement(sqlStatement);

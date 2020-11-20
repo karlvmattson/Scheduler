@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Functions related to generating reports about the database information.
+ */
 public class ReportFunctions {
 
 

@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Implementation of AppointmentDAO interface.
+ */
 public class AppointmentDAOImpl implements AppointmentDAO {
     /**
      * @param appointmentTitle the appointment name to search for

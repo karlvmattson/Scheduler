@@ -2,6 +2,9 @@ package scheduler;
 
 import model.User;
 
+/**
+ * Interface defining methods shared across any menus to be displayed in the child pane on the GUI.
+ */
 public interface ChildPaneController {
 
     /**

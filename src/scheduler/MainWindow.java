@@ -25,6 +25,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the main program window.
+ */
 public class MainWindow {
 
     @FXML

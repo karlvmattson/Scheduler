@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Implementation of UserDAO interface.
+ */
 public class UserDAOImpl implements UserDAO {
     /**
      * @param userName the user name to search for

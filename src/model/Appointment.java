@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDateTime;
 
 /**
- *
+ * Object class for appointments.
  */
 public class Appointment {
     private int appointmentID;

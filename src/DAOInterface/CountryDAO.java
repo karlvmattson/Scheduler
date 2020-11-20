@@ -4,6 +4,9 @@ import javafx.collections.ObservableList;
 import model.Country;
 import java.sql.SQLException;
 
+/**
+ * Defines interface for working with Country objects.
+ */
 public interface CountryDAO {
     Country getCountry(String countryName);
     Country getCountry(int countryID);

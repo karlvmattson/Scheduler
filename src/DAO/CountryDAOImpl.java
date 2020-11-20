@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Implementation of CountryDAO interface.
+ */
 public class CountryDAOImpl implements CountryDAO {
 
     /**

@@ -5,6 +5,9 @@ import model.Contact;
 
 import java.sql.SQLException;
 
+/**
+ * Defines interface for working with Contact objects.
+ */
 public interface ContactDAO {
     Contact getContact(String contactName) throws SQLException;
 

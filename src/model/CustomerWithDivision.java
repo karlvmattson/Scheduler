@@ -2,6 +2,9 @@ package model;
 
 import DAO.DivisionDAOImpl;
 
+/**
+ * Object class for customers. Pulls in the associated division.
+ */
 public class CustomerWithDivision extends Customer{
 
     private String division;

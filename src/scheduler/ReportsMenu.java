@@ -12,6 +12,9 @@ import utils.ReportFunctions;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the report menu.
+ */
 public class ReportsMenu implements ChildPaneController, Initializable {
     @FXML
     private Label labelUserName;

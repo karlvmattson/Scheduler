@@ -2,6 +2,9 @@ package model;
 
 import DAO.ContactDAOImpl;
 
+/**
+ * Object class for appointments that pulls in the associated contact.
+ */
 public class AppointmentWithContact extends Appointment{
 
     private String contactName;

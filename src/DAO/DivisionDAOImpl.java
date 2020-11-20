@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Implementation of DivisionDAO interface.
+ */
 public class DivisionDAOImpl implements DivisionDAO {
     /**
      * @param divisionName the division name to search for

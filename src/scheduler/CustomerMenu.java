@@ -20,7 +20,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/**
+ * Controller class for the customer view/editing menu.
+ */
 public class CustomerMenu implements ChildPaneController, Initializable {
     @FXML
     private Label labelModifyError;

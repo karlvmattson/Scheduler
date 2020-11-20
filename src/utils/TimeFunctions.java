@@ -12,6 +12,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 
+/**
+ * Functions related to working with time objects in the application.
+ */
 public class TimeFunctions {
 
     /**

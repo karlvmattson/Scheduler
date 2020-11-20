@@ -5,6 +5,9 @@ import model.Division;
 
 import java.sql.SQLException;
 
+/**
+ * Defines interface for working with Division objects.
+ */
 public interface DivisionDAO {
     Division getDivision(String divisionName);
 

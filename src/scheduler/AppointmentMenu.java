@@ -22,6 +22,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the appointment editing menu.
+ */
 public class AppointmentMenu implements ChildPaneController, Initializable {
 
     @FXML

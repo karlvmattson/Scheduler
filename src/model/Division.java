@@ -2,6 +2,9 @@ package model;
 
 import java.time.LocalDateTime;
 
+/**
+ * Object class for divisions.
+ */
 public class Division {
 
     private int divisionID;

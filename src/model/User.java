@@ -2,6 +2,9 @@ package model;
 
 import java.time.LocalDateTime;
 
+/**
+ * Object class for users.
+ */
 public class User {
     private int userID;
     private String userName;

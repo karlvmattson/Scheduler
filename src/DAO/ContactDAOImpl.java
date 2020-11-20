@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Implementation of ContactDAO interface.
+ */
 public class ContactDAOImpl implements ContactDAO {
     /**
      * @param contactName the contact name to search for

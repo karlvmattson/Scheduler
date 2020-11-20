@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Implementation of CustomerDAO interface.
+ */
 public class CustomerDAOImpl implements CustomerDAO {
     /**
      * @param customerName the customer name to search for

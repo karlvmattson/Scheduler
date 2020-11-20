@@ -5,6 +5,9 @@ import model.User;
 
 import java.sql.SQLException;
 
+/**
+ * Defines interface for working with User objects.
+ */
 public interface UserDAO {
     User getUser(String userName) throws SQLException;
 

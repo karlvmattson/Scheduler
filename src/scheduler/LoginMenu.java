@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+/**
+ * Controller class for the login menu.
+ */
 public class LoginMenu implements Initializable {
     @FXML
     private Label labelRegion;

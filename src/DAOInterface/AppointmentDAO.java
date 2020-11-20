@@ -7,6 +7,9 @@ import model.Customer;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Defines interface for working with Appointment objects.
+ */
 public interface AppointmentDAO {
     Appointment getAppointment(String appointmentName);
 

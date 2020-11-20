@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.Locale;
 
+/**
+ * Main class.
+ */
 public class Main extends Application {
 
     /**
