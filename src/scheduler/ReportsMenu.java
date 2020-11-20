@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import model.User;
+import utils.ReportFunctions;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,16 +45,20 @@ public class ReportsMenu implements ChildPaneController, Initializable {
     public void handleButtonAppointmentTotals(ActionEvent actionEvent) {
         resetButtons();
         buttonAppointmentTotals.setStyle("-fx-background-color: #3BAD5B");
+
+        textReportWindow.setText(ReportFunctions.getReport("AppointmentTotals"));
     }
 
     public void handleButtonContactSchedule(ActionEvent actionEvent) {
         resetButtons();
         buttonContactSchedule.setStyle("-fx-background-color: #3BAD5B");
+        textReportWindow.setText(ReportFunctions.getReport("ContactSchedule"));
     }
 
     public void handleButtonDivisionReport(ActionEvent actionEvent) {
         resetButtons();
         buttonDivisionReport.setStyle("-fx-background-color: #3BAD5B");
+        textReportWindow.setText(ReportFunctions.getReport("DivisionReport"));
     }
 
     @Override

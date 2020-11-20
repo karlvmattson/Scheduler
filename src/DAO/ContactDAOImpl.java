@@ -72,7 +72,7 @@ public class ContactDAOImpl implements ContactDAO {
         ResultSet result;
 
         // create and run query
-        String query = "SELECT * FROM contacts";
+        String query = "SELECT * FROM contacts ORDER BY Contact_Name";
         result = DBQuery.executePreparedStatement(query);
 
         // loop through results and add them to the list

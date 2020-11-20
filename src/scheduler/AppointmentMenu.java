@@ -15,6 +15,7 @@ import model.Appointment;
 import model.Contact;
 import model.Customer;
 import model.User;
+import utils.TimeFunctions;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -88,6 +89,20 @@ public class AppointmentMenu implements ChildPaneController, Initializable {
         else {
             createDate = LocalDateTime.now();
             createdBy = currentUser.getUserName();
+        }
+
+        // make sure appointment time is within business hours
+        if(!TimeFunctions.checkWithinBusinessHours(startTime)) {
+            labelError.setText("Appointment time is outside of business hours.");
+            labelError.setVisible(true);
+            return;
+        }
+
+        // make sure there are no overlapping appointments
+        if(!TimeFunctions.checkNoOverlaps(startTime,endTime, newAppointment.getCustomerID())) {
+            labelError.setText("There are overlapping appointments for this customer.");
+            labelError.setVisible(true);
+            return;
         }
 
         if(editMode) {

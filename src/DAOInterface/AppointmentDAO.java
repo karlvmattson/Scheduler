@@ -5,6 +5,7 @@ import model.Appointment;
 import model.Customer;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public interface AppointmentDAO {
     Appointment getAppointment(String appointmentName);
@@ -20,4 +21,10 @@ public interface AppointmentDAO {
     void deleteAppointment(Appointment deleteTarget);
 
     void deleteAppointmentByCustomer(Customer customer);
+
+    ObservableList<Appointment> getOverlappingAppointments(LocalDateTime startTime, LocalDateTime endTime, int customerID);
+
+    ObservableList<String> getAppointmentTypes();
+
+
 }

@@ -2,6 +2,7 @@ package DAO;
 
 import DAOInterface.AppointmentDAO;
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 import model.Customer;
@@ -10,6 +11,7 @@ import utils.TimeFunctions;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 public class AppointmentDAOImpl implements AppointmentDAO {
@@ -126,6 +128,72 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         // create and run query
         String query = "DELETE FROM appointments WHERE Customer_ID = " + customer.getCustomerID();
         DBQuery.executePreparedStatement(query);
+    }
+
+    /**
+     * Returns a list of all appointments that overlap the given start/end time for a given customer.
+     * @param startTime start time to check
+     * @param endTime end time to check
+     * @param customerID customer to check
+     * @return list of any appointments that overlap
+     */
+    @Override
+    public ObservableList<Appointment> getOverlappingAppointments(LocalDateTime startTime, LocalDateTime endTime, int customerID) {
+        ObservableList<Appointment> overlappingAppointments = FXCollections.observableArrayList();
+
+        // Set up query
+        String query = "SELECT * FROM appointments WHERE Customer_ID = ? AND Start > ? AND Start < ? OR " +
+                "Customer_ID = ? AND End > ? AND End < ?";
+
+        // build and run query
+        try {
+            DBQuery.setPreparedStatement(query);
+            PreparedStatement statement = DBQuery.getPreparedStatement();
+            statement.setInt(1, customerID);
+            statement.setTimestamp(2, TimeFunctions.toDBTimestamp(startTime));
+            statement.setTimestamp(3, TimeFunctions.toDBTimestamp(endTime));
+            statement.setInt(4, customerID);
+            statement.setTimestamp(5, TimeFunctions.toDBTimestamp(startTime));
+            statement.setTimestamp(6, TimeFunctions.toDBTimestamp(endTime));
+            ResultSet result = DBQuery.executePreparedStatement();
+
+            // loop through results and add them to the list
+            while (result.next()) {
+                Appointment nextAppointment = makeAppointmentFromResult(result);
+                overlappingAppointments.add(nextAppointment);
+            }
+        }
+        catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+
+        return overlappingAppointments;
+    }
+
+    /**
+     * Gets a list of all distinct appointment types in the database.
+     * @return list of all types in DB
+     */
+    @Override
+    public ObservableList<String> getAppointmentTypes() {
+        ObservableList<String> types = FXCollections.observableArrayList();
+        ResultSet result;
+
+        try {
+            // create and run query
+            String query = "SELECT DISTINCT Type FROM appointments ORDER BY Type";
+            result = DBQuery.executePreparedStatement(query);
+
+            // loop through results and add them to the list
+            while (result.next()) {
+                types.add(result.getString("Type"));
+            }
+        }
+        catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+
+        return types;
     }
 
 

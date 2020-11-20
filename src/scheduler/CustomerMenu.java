@@ -20,6 +20,9 @@ import utils.TimeFunctions;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerMenu implements ChildPaneController, Initializable {
@@ -81,6 +84,7 @@ public class CustomerMenu implements ChildPaneController, Initializable {
     private ObservableList<Country> countryList = FXCollections.observableArrayList();
     private ObservableList<Division> divisionList = FXCollections.observableArrayList();
     private Boolean modifyRecord;
+    private Customer modifyCustomer;
 
     public void handleButtonAdd(ActionEvent actionEvent) {
         hideErrors();
@@ -117,10 +121,90 @@ public class CustomerMenu implements ChildPaneController, Initializable {
 
     public void handleButtonDelete(ActionEvent actionEvent) {
         hideErrors();
+
+        if (tableCustomers.getSelectionModel().getSelectedIndex() > -1) {
+            CustomerWithDivision selected = tableCustomers.getSelectionModel().getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete customer?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                labelModifyError.setText("Customer record for " + selected.getCustomerName() + " has been deleted.");
+                labelModifyError.setVisible(true);
+                new CustomerDAOImpl().deleteCustomer(selected);
+                reloadTableView();
+            }
+        } else {
+            labelModifyError.setText("Please select an appointment first.");
+            labelModifyError.setVisible(true);
+        }
     }
 
+    /**
+     * Validates data in the customer add/modify fields.
+     * @return true if entries are valid
+     */
+    private boolean  validateEntries() {
+        // make sure there are no empty fields
+        if(textAddress.getLength() < 1 || textName.getLength() < 1 || textPhone.getLength() < 1 || textPostalCode.getLength() < 1) {
+            labelModifyError.setText("Please fill out all fields.");
+            return false;
+        }
+
+        // make sure a country and division are selected
+        if(comboCountry.getSelectionModel().getSelectedIndex() < 0 || comboDivision.getSelectionModel().getSelectedIndex() < 0) {
+            labelModifyError.setText("Please select a country and division.");
+            return false;
+        }
+
+        return true;
+    }
     public void handleButtonSave(ActionEvent actionEvent) {
         hideErrors();
+
+        if(!validateEntries()) { return; } // make sure entries are valid
+
+        String name = textName.getText();
+        String address = textAddress.getText();
+        String phone = textPhone.getText();
+        String postalCode = textPostalCode.getText();
+        String modifyUser = currentUser.getUserName();
+        int divisionID = comboDivision.getSelectionModel().getSelectedItem().getDivisionID();
+
+        // Get current time to log the update
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        // Build LocalDateTime objects
+        LocalDateTime createDate;
+        String createdBy;
+        if(modifyRecord) {
+            createDate = modifyCustomer.getCreateDate();
+            createdBy = modifyCustomer.getCreatedBy();
+        }
+        else {
+            createDate = LocalDateTime.now();
+            createdBy = currentUser.getUserName();
+        }
+
+        // create and save new customer record
+        try {
+            if (modifyRecord) {
+                int customerID = modifyCustomer.getCustomerID();
+                Customer newCustomer = new Customer(customerID, name, address, postalCode, phone, createDate,
+                        createdBy, currentTime, modifyUser, divisionID);
+                new CustomerDAOImpl().updateCustomer(newCustomer);
+            } else {
+                Customer newCustomer = new Customer(name, address, postalCode, phone, currentTime,
+                        modifyUser, currentTime, modifyUser, divisionID);
+                new CustomerDAOImpl().addCustomer(newCustomer);
+
+            }
+        }
+        catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+            labelModifyError.setText("SQL Error.");
+            labelModifyError.setVisible(true);
+            return;
+        }
+        reloadTableView();
         hideEditFields();
     }
 

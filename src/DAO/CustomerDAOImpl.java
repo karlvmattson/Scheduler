@@ -134,7 +134,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 //        DBQuery.executePreparedStatement(query);
 
         // create and run query
-        String query = "DELETE * FROM customers WHERE Customer_ID = " + deleteTarget.getCustomerID();
+
+        String query = "DELETE FROM customers WHERE Customer_ID = " + deleteTarget.getCustomerID();
         DBQuery.executePreparedStatement(query);
     }
 

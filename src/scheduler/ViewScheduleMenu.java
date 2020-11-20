@@ -115,6 +115,8 @@ public class ViewScheduleMenu implements ChildPaneController, Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete appointment?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
+                labelError.setText(selected.getType() + " appointment with ID " + selected.getAppointmentID() + " has been deleted.");
+                labelError.setVisible(true);
                 new AppointmentDAOImpl().deleteAppointment(selected);
                 refreshData();
                 if (radioFilterByWeek.isSelected()) {
