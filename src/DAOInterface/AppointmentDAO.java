@@ -25,8 +25,6 @@ public interface AppointmentDAO {
 
     void deleteAppointmentByCustomer(Customer customer);
 
-    ObservableList<Appointment> getOverlappingAppointments(LocalDateTime startTime, LocalDateTime endTime, int customerID);
-
     ObservableList<String> getAppointmentTypes();
 
 

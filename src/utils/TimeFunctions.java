@@ -2,14 +2,17 @@ package utils;
 
 import DAO.AppointmentDAOImpl;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import model.Appointment;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 /**
@@ -82,8 +85,15 @@ public class TimeFunctions {
      * @return true if no overlapping appointments
      */
     public static boolean checkNoOverlaps(LocalDateTime startTime, LocalDateTime endTime, int customerID) {
-        ObservableList<Appointment> appointments = new AppointmentDAOImpl().getOverlappingAppointments(startTime,endTime,customerID);
-        return appointments.size() <= 0;
+        try {
+            ObservableList<Appointment> appointments = new AppointmentDAOImpl().getAllAppointments();
+            FilteredList<Appointment> filteredList = appointments.filtered(a -> a.getCustomerID() == customerID & !(a.getStartTime().isAfter(endTime) || a.getEndTime().isBefore(startTime)));
+            return filteredList.size() <= 1;
+        }
+        catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+        return true;
     }
 
 

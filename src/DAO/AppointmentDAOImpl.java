@@ -132,46 +132,6 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     }
 
     /**
-     * Returns a list of all appointments that overlap the given start/end time for a given customer.
-     * @param startTime start time to check
-     * @param endTime end time to check
-     * @param customerID customer to check
-     * @return list of any appointments that overlap
-     */
-    @Override
-    public ObservableList<Appointment> getOverlappingAppointments(LocalDateTime startTime, LocalDateTime endTime, int customerID) {
-        ObservableList<Appointment> overlappingAppointments = FXCollections.observableArrayList();
-
-        // Set up query
-        String query = "SELECT * FROM appointments WHERE Customer_ID = ? AND Start > ? AND Start < ? OR " +
-                "Customer_ID = ? AND End > ? AND End < ?";
-
-        // build and run query
-        try {
-            DBQuery.setPreparedStatement(query);
-            PreparedStatement statement = DBQuery.getPreparedStatement();
-            statement.setInt(1, customerID);
-            statement.setTimestamp(2, TimeFunctions.toDBTimestamp(startTime));
-            statement.setTimestamp(3, TimeFunctions.toDBTimestamp(endTime));
-            statement.setInt(4, customerID);
-            statement.setTimestamp(5, TimeFunctions.toDBTimestamp(startTime));
-            statement.setTimestamp(6, TimeFunctions.toDBTimestamp(endTime));
-            ResultSet result = DBQuery.executePreparedStatement();
-
-            // loop through results and add them to the list
-            while (result.next()) {
-                Appointment nextAppointment = makeAppointmentFromResult(result);
-                overlappingAppointments.add(nextAppointment);
-            }
-        }
-        catch (SQLException sqlException) {
-            System.out.println(sqlException.getMessage());
-        }
-
-        return overlappingAppointments;
-    }
-
-    /**
      * Gets a list of all distinct appointment types in the database.
      * @return list of all types in DB
      */
