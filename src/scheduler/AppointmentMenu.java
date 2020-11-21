@@ -84,6 +84,13 @@ public class AppointmentMenu implements ChildPaneController, Initializable {
         if(editMode) {
             createDate = newAppointment.getCreateDate();
             createdBy = newAppointment.getCreatedBy();
+
+            // make sure there are no overlapping appointments
+            if(!TimeFunctions.checkNoOverlaps(startTime,endTime, newAppointment.getCustomerID())) {
+                labelError.setText("There are overlapping appointments for this customer.");
+                labelError.setVisible(true);
+                return;
+            }
         }
         else {
             createDate = LocalDateTime.now();
@@ -97,12 +104,7 @@ public class AppointmentMenu implements ChildPaneController, Initializable {
             return;
         }
 
-        // make sure there are no overlapping appointments
-        if(!TimeFunctions.checkNoOverlaps(startTime,endTime, newAppointment.getCustomerID())) {
-            labelError.setText("There are overlapping appointments for this customer.");
-            labelError.setVisible(true);
-            return;
-        }
+
 
         if(editMode) {
             // modify existing appointment

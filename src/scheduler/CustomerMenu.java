@@ -20,9 +20,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
-/**
- * Controller class for the customer view/editing menu.
- */
+
 public class CustomerMenu implements ChildPaneController, Initializable {
     @FXML
     private Label labelModifyError;
@@ -106,22 +104,23 @@ public class CustomerMenu implements ChildPaneController, Initializable {
      */
     public void handleButtonModify(ActionEvent actionEvent) {
         hideErrors();
-        Customer customer;
         if (tableCustomers.getSelectionModel().getSelectedIndex() == -1) {
             labelModifyError.setText("Select a customer first.");
             labelModifyError.setVisible(true);
             return;
         }
-        customer = tableCustomers.getSelectionModel().getSelectedItem();
+        modifyCustomer = tableCustomers.getSelectionModel().getSelectedItem();
+
         modifyRecord = true;
-        textPostalCode.setText(customer.getPostalCode());
-        textPhone.setText(customer.getPhone());
-        textName.setText(customer.getCustomerName());
-        textID.setText(String.valueOf(customer.getCustomerID()));
-        textAddress.setText(customer.getAddress());
+        textPostalCode.setText(modifyCustomer.getPostalCode());
+        textPhone.setText(modifyCustomer.getPhone());
+        textName.setText(modifyCustomer.getCustomerName());
+        textID.setText(String.valueOf(modifyCustomer.getCustomerID()));
+        textAddress.setText(modifyCustomer.getAddress());
         setupComboBoxes();
-        comboDivision.getSelectionModel().select(new DivisionDAOImpl().getDivision(customer.getDivisionID()));
-        comboCountry.getSelectionModel().select(new CountryDAOImpl().getCountry((new DivisionDAOImpl().getDivision(customer.getDivisionID())).getCountryID()));
+        comboDivision.getSelectionModel().select(new DivisionDAOImpl().getDivision(modifyCustomer.getDivisionID()));
+        comboCountry.getSelectionModel().select(new CountryDAOImpl().getCountry((new DivisionDAOImpl().getDivision(modifyCustomer.getDivisionID())).getCountryID()));
+        filterDivisionEditBox();
         showEditFields();
     }
 
@@ -156,12 +155,14 @@ public class CustomerMenu implements ChildPaneController, Initializable {
         // make sure there are no empty fields
         if(textAddress.getLength() < 1 || textName.getLength() < 1 || textPhone.getLength() < 1 || textPostalCode.getLength() < 1) {
             labelModifyError.setText("Please fill out all fields.");
+            labelModifyError.setVisible(true);
             return false;
         }
 
         // make sure a country and division are selected
-        if(comboCountry.getSelectionModel().getSelectedIndex() < 0 || comboDivision.getSelectionModel().getSelectedIndex() < 0) {
+        if(comboCountry.getSelectionModel().getSelectedItem().getCountryID() < 1 || comboDivision.getSelectionModel().getSelectedItem().getDivisionID() < 1) {
             labelModifyError.setText("Please select a country and division.");
+            labelModifyError.setVisible(true);
             return false;
         }
 
