@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.TimeFunctions;
 
 import java.sql.SQLException;
 import java.util.Locale;
@@ -23,6 +24,10 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+       // TimeFunctions.checkNoOverlapsTest();
+
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
         Parent root = fxmlLoader.load();
 
