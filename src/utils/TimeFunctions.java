@@ -58,6 +58,7 @@ public class TimeFunctions {
 
     /**
      * Checks a LocalDateTime (user local time) against business hours and returns true if within business hours (8am EST - 10pm EST).
+     *
      * @param localDateTime time to be checked
      * @return true if within business hours
      */
@@ -77,24 +78,21 @@ public class TimeFunctions {
     }
 
     /**
-     * Checks to make sure there are no overlapping appointments for a given customer and time.
+     * Checks to make sure there are no overlapping appointments for a given customer and time when making a new appointment.
      * @param startTime  start time to check
      * @param endTime end time to check
      * @param customerID customer to be checked
-     * @param newAppointment true if this is a new appointment
      * @return true if no overlapping appointments
      */
-    public static boolean checkNoOverlaps(LocalDateTime startTime, LocalDateTime endTime, int customerID, Boolean newAppointment) {
+    public static boolean checkNoOverlapsNewAppointment(LocalDateTime startTime, LocalDateTime endTime, int customerID) {
         try {
             ObservableList<Appointment> appointments = new AppointmentDAOImpl().getAllAppointments();
-            FilteredList<Appointment> filteredList = appointments.filtered(a -> a.getCustomerID() ==
-                        customerID & !(a.getStartTime().isAfter(endTime) || a.getEndTime().isBefore(startTime)));
-            if(newAppointment) {
-                return filteredList.size() <= 0;
-            }
-            else {
-                return filteredList.size() <= 1;
-            }
+            FilteredList<Appointment> filteredList = appointments.filtered(a ->
+                    a.getCustomerID() == customerID
+                            & (!(a.getStartTime().isAfter(endTime) || a.getEndTime().isBefore(startTime)
+                                || (a.getStartTime().isEqual(endTime) || a.getEndTime().isEqual(startTime)))));
+            return filteredList.size() <= 0;
+
         }
         catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
@@ -102,4 +100,32 @@ public class TimeFunctions {
         return true;
     }
 
+    /**
+     * Checks to make sure there are no overlapping appointments for a given customer and time when modifying
+     * an existing appointment.
+     * @param startTime  start time to check
+     * @param endTime end time to check
+     * @param customerID customer to be checked
+     * @param appointmentID ID of appointment being modified
+     * @return true if no overlapping appointments
+     */
+    public static boolean checkNoOverlapsModifyAppointment(LocalDateTime startTime, LocalDateTime endTime, int customerID, int appointmentID) {
+        try {
+            ObservableList<Appointment> appointments = new AppointmentDAOImpl().getAllAppointments();
+            FilteredList<Appointment> filteredList = appointments.filtered(a ->
+                    a.getCustomerID() == customerID
+                            & a.getAppointmentID() != appointmentID
+                            & (!(a.getStartTime().isAfter(endTime) || a.getEndTime().isBefore(startTime)
+                            || (a.getStartTime().isEqual(endTime) || a.getEndTime().isEqual(startTime)))));
+            return filteredList.size() <= 0;
+        }
+        catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+        return true;
+    }
 }
+//
+//    FilteredList<Appointment> filteredList = appointments.filtered(a -> a.getCustomerID() ==
+//            customerID & (!(a.getStartTime().isAfter(endTime) || a.getEndTime().isBefore(startTime)) ||
+//            (a.getStartTime().isAfter(startTime) & a.getEndTime().isBefore(endTime))));
