@@ -3,8 +3,8 @@ Program:        C195-Scheduler
 *********************************************************************************************
 
 Purpose:        An appointment scheduling program for a global consulting organization.
-Version:        1.01
-Date:           11/21/2020
+Version:        1.02
+Date:           11/29/2020
 Author:         Karl Mattson
 Email:          kmatts5@wgu.edu
 
